@@ -1,0 +1,89 @@
+:root {
+  --primary: #BA5D27;
+  --secondary: #0C7674;
+  --white: #fffff5;
+  --text: #000000;
+}
+
+body {
+  margin: 0 auto;
+  padding: 0;
+  border: 0;
+  font-family: "Rosario", sans-serif;
+  font-weight: 400;
+  background-color: var(--white);
+}
+
+/* Header */
+
+.header {
+  background-color: var(--white);
+  padding: 5px 10px;
+  border-bottom: var(--primary) 3px solid;
+  position: sticky;
+  top: 0;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+} 
+
+.logo {
+  margin-right: auto;
+}
+
+.logo_img {
+  height: 80px;
+  width: auto;
+}
+
+.nav__links-container {
+  display: flex;
+  gap: 20px;
+  flex-wrap: nowrap;
+}
+
+.nav__btn {
+  display: none;
+  background-color: var(--white);
+  border: none;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  gap: 8px;
+}
+
+.nav__btn_lines {
+  display: none;
+  background-color: var(--primary);
+  width: 30px;
+  height: 4px;
+  border-radius: 10px;
+}
+
+.nav_link {
+  text-decoration: none;
+}
+
+.logo_img:hover {
+  scale: .99;
+  content: url(images/logo-blue.png);
+}
+
+.nav_link:hover {
+  font-size: 15.7px;
+  text-decoration: solid underline;
+}
+
+/* Homepage */
+
+
+
+/* Cat & Dog Page */
+
+
+
+/* Login & Sign-up Page */
+
+
+/* Favorites Page */

@@ -1,0 +1,30 @@
+<header class="header">
+  <a class="logo" href="/">
+    <img src="../images/logo-orange.png" alt="Logo" width="300" class="logo_img">
+  </a>
+  <button class="nav__btn" aria-expanded="false" aria-controls="nav-menu">
+    <div class="nav__btn_lines" id="line-1"></div>
+    <div class="nav__btn_lines" id="line-2"></div>
+    <div class="nav__btn_lines" id="line-3"></div>
+  </button>
+  {{#if isLoggedIn}}
+    <nav class="nav__links-container">
+      <a href="/cats" class="nav_link">Available Cats</a>
+      <a href="/dogs" class="nav_link">Available Dogs</a>
+      <a href="/favorites" class="nav_link">Favorites</a>
+      <a href="/api/logout" class="nav_link">Logout</a>
+    </nav>
+  {{else}}
+  <nav class="nav__links-container">
+    <a href="/cats" class="nav_link">Available Cats</a>
+    <a href="/dogs" class="nav_link">Available Dogs</a>
+    <a href="/login" class="nav_link">Login/Sign-Up</a>
+  </nav>
+  {{/if}}
+</header>
+<script>
+  {{!-- const navBtn = document.querySelector(".nav__btn")
+  const navMenu = document.querySelector(".nav__links-container")
+
+  function toggleMenu() --}}
+</script>

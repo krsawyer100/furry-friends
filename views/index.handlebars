@@ -1,0 +1,93 @@
+    <main class="main">
+        <section class="main__hero flex">
+            <h1 class="main__hero__call-to-action">In the market for a new furry friend?</h1>
+            <h2 class="main__hero__call-to-action">Check out cats and dogs available for adoption!</h2>
+            <a class="main__hero__call-to-action__button" href="#adoption-icon" style="background: url(images/arrow-icon.png)"></a>
+        </section>
+
+        <section class="main__pet-adoption flex" id="adoption-icon">
+            <h3 class ="main__pet-adoption_title">Pets Available for Adoption</h3>
+            <div class="main__pet__adoption-img_container flex">
+                <a class="main__cat_link" href="/cats">
+                    <img src="images/cat-button-orange.png" alt="cat-icon" class="main__link_img-cat" width="100"> 
+                </a>
+                <a class="main__dog_link" href="/dogs">
+                    <img src="images/dog-button-orange.png" alt="dog-icon" class="main__link_img-dog" width="100">
+                </a>
+            </div>
+        </section>
+
+        <section class="main__pet__facts flex">
+            <div class="main__pet__facts_container" id = facts_container>
+                <img src="../images/cat-facts-img.jpg" alt="cat-picture" class="main__facts_img" width="300px">
+                <div class="main__pet__facts__div" id = factsDiv>
+                    <h3 class="main__pet__facts_text">Did You Know?</h3>
+                    <h4 class="main__pet__facts_api" id="main__facts"></h4>
+                </div>
+            </div>
+                
+            </div>
+        </section>
+
+        <section class="main__involved">
+            <h3 class="main__involved-title">Get Involved</h3>
+            <div class="main__involved_info-container flex">
+                <div class="main__involved_info-container_adopt">
+                    <img src="images/adopt.jpg" alt="photo of dog in a cage" class="main__involved_info_img" width="50px">
+                    <h4 class="main__involved_info_subtitle">Adopt</h4>
+                    <p class="main__involved_info_text">Consider the benefits of adopting a pet: save lives, prevent overcrowding, and avoid euthanasia. Adopted pets often come vaccinated, spayed/neutered, and microchipped which saves time and money. Pets also reduce stress, combat loneliness, and promote an active lifestyle. Adoption gives these pets a fresh start and supports animal welfare organizations. Skip the pet store and offer a forever home to a lovable furball. It's a win-win for all!
+                    </p>
+                    <a href="https://wvs.org.uk/news/10-reasons-why-you-should-adopt-dont-shop/?utm_source=google&utm_medium=cpc&utm_campaign=20220009528&utm_term=&gad_source=1&gclid=EAIaIQobChMIo_HlofbAhQMV1KhaBR3OYg47EAAYAyAAEgIeafD_BwE" class="main__involved_info_link" target="__BLANK">Explore more benefits of adoption here</a>
+                </div>
+                <div class="main__involved_info-container_foster">
+                    <img src="images/foster.jpg" alt="photo of cat high fiving someone" class="main__involved_info_img" width="50px">
+                    <h4 class="main__involved_info_subtitle">Foster</h4>
+                    <p class="main__involved_info_text">
+                       Fostering stray animals is a compassionate way to save lives and experience pet ownership without a long-term commitment. By providing a temporary sanctuary, you'll be showering these animals with love and care, helping them recover and find their forever homes. Open your home and heart to a foster pet and make a difference in their lives while potentially finding a new furry best friend. 
+                    </p>
+                    <a href="https://strayanimalfoundationindia.org/the-benefits-of-fostering-stray-animals/?gad_source=1&gclid=Cj0KCQjw2uiwBhCXARIsACMvIU0Y4HueNgb21T_uWLin9v2h49vPxBoJkqURoOaWHtUbbunHWflTJeEaAvlQEALw_wcB" class="main__involved_info_link" target="__BLANK">
+                        Explore more benefits of fostering here
+                    </a>
+                </div>
+                <div class="main__involved_info-container_volunteer">
+                    <img src="images/volunteer.jpg" alt="photo of dog with a toy" class="main__involved_info_img" width="50px">
+                    <h4 class="main__involved_info_subtitle">Volunteer</h4>
+                    <p class="main__involved_info_text">
+                        Volunteering with animals is a journey full of surprises. Making a real impact on their lives by walking dogs, giving belly rubs, or simply spending time together brightens their day. It's therapeutic for you too, with animals lifting your spirits and filling you with warmth. You'll learn new skills, form connections, and join a community of animal lovers. If you have time and love to give, lend a paw and help the pets in need.
+                    </p>
+                    <a href="https://strayanimalfoundationindia.org/why-volunteering-is-essential-in-helping-stray-animals/?gad_source=1&gclid=Cj0KCQjw2uiwBhCXARIsACMvIU0c_21plt5125-wi2cpb8BCQrbaoaJUipg1Du7dnTf1RMkp8ozch1caAjA7EALw_wcB" class="main__involved_info_link" target="__BLANK">
+                        Explore more benefits of volunteering here
+                    </a>
+                </div>
+            </div>
+        </section>
+    </main>
+<script>
+  const factsContainer = document.querySelector(".main__pet__facts_container")
+  const factsDiv = document.getElementById("factsDiv")
+  const fact = document.getElementById("main__facts")
+  const URL = "https://meowfacts.herokuapp.com/";
+
+  document.body.onload = function(e) {
+    e.preventDefault()
+    const res = fetch(URL)
+    .then (function(res) {
+      if (res.status !== 200) {
+        throw new Error ('No Data Found')
+      } else {
+        return res.json()
+      }
+    })
+    .then(renderFact)
+    .catch(function(err) {
+      console.log(err.message)
+    })
+  }
+
+  function renderFact (catData) {
+    const catFact = catData.data 
+    console.log(catFact)
+    fact.innerHTML = catFact
+  }
+  
+</script>
