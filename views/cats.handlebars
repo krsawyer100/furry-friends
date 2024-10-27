@@ -13,5 +13,128 @@
     </main>
 
 <script>
+    const clientId = "GiSioqvTD4tdsfeNRgjcQstuUR4V1aN2P3sY1I32C6dF2MGdLX"
+    const clientSecret = "uY0TDw81TXWq3X4aUHuoga5loTu1wKqHNkusbb2M"
+    const TOKEN_URL = "https://api.petfinder.com/v2/oauth2/token"
+    const API_URL = `https://api.petfinder.com/v2/animals?sort=-distance&type=cat`
+
+    const form = document.querySelector(".main__location_form")
+    const catCardsContainer = document.querySelector(".main__cards-container")
+    const catPageTitleContainer = document.querySelector(".main__page-title")
+
+    form.onsubmit = function(e) {
+        e.preventDefault()
+        let zipcode = form.location.value.trim()
+        if(!zipcode || !(checkZipcodeFormat(zipcode))) {
+            form.location.value = ""
+            catCardsContainer.innerHTML = `<h5> Location not found... Please try another zipcode</h5>`
+            catPageTitleContainer.innerHTML = ""
+            return
+        } else {
+            localStorage.setItem('user-zipcode', zipcode)
+        }
+        form.location.value = ""
+        fetchApiInfo(zipcode)
+    }
+
     
+    function fetchApiInfo(zipcode) {
+        fetch(TOKEN_URL, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded'
+            },
+            body: `grant_type=client_credentials&client_id=${clientId}&client_secret=${clientSecret}`
+        })
+        .then(function(res) {
+            if (!res.ok) {
+                throw new Error('No Token Found')
+            }
+            return res.json()
+        })
+        .then(function(data) {
+            const accessToken = data.access_token
+
+            return fetch(`${API_URL}&location=${zipcode}`, {
+                method: 'GET',
+                headers: {
+                    "Content-Type": "application/vnd.api+json",
+                    "Authorization": `Bearer ${accessToken}`
+                }
+            })
+        })
+        .then(function(res) {
+            if (!res.ok) {
+                throw new Error('No Data Found')
+            }
+            return res.json()
+        })
+        .then(renderCats)
+        .catch(function(err) {
+            console.log(err.message)
+        }) 
+    }
+
+    function renderCats(catData) {
+        const catDataArray = Array.from(catData.animals)
+
+        {{!-- Resets Cards --}}
+        catPageTitleContainer.innerHTML = ""
+        catCardsContainer.innerHTML = ""
+
+        {{!-- Location Title --}}
+        zipcode = localStorage.getItem('user-zipcode')
+        const catPageTitle = document.createElement('h3')
+        catPageTitle.textContent = `Cats Available Near ${zipcode}`
+        catPageTitleContainer.appendChild(catPageTitle)
+
+        {{!-- Animal Cards --}}
+        for (let catNum = 0; catNum < catDataArray.length; catNum++) {
+            {{!-- creates card for each cat --}}
+
+            let card = catDataArray[catNum]
+            card = document.createElement('div')
+            card.className = "main__cards-container_card"
+            catCardsContainer.appendChild(card)
+
+            {{!-- Creates imgs --}}
+
+            let catPic = document.createElement('img')
+            catPic.className = "main__cards-container_card-img"
+            if(catDataArray[catNum].primary_photo_cropped === null) {
+                catPic.src = "../images/placeholder-img.png"
+            } else {
+                catPic.src = catDataArray[catNum].primary_photo_cropped.full
+            }
+            catPic.width = "300"
+            catPic.alt = catDataArray[catNum].name
+            card.appendChild(catPic)
+
+            {{!-- creates name --}}
+
+            catName = document.createElement('p')
+            catName.textContent = "Name: " + catDataArray[catNum].name
+            catName.className = "main__cards-container_card-info"
+            card.appendChild(catName)
+
+            {{!-- creates age group --}}
+
+            catAgeGroup = document.createElement('p')
+            catAgeGroup.textContent = "Age Group: " + catDataArray[catNum].age
+            catAgeGroup.className = "main__cards-container_card-info"
+            card.appendChild(catAgeGroup)
+
+            {{!-- creates gender --}}
+
+            let catGender = document.createElement('p')
+            catGender.textContent = "Gender: " + catDataArray[catNum].gender
+            catGender.className = "main__cards-container_card-info"
+            card.appendChild(catGender)
+        }
+    }
+
+    {{!-- Checks Zipcode Format --}}
+    const checkZipcodeFormat = (str) => {
+    return /^\d{5}(-\d{4})?$/.test(str);
+    }
 </script>
