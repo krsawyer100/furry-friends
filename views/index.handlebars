@@ -66,11 +66,11 @@
   const factsContainer = document.querySelector(".main__pet__facts_container")
   const factsDiv = document.getElementById("factsDiv")
   const fact = document.getElementById("main__facts")
-  const URL = "https://meowfacts.herokuapp.com/";
+  const API_URL = "https://meowfacts.herokuapp.com/";
 
   document.body.onload = function(e) {
     e.preventDefault()
-    const res = fetch(URL)
+    const res = fetch(API_URL)
     .then (function(res) {
       if (res.status !== 200) {
         throw new Error ('No Data Found')
@@ -86,7 +86,6 @@
 
   function renderFact (catData) {
     const catFact = catData.data 
-    console.log(catFact)
     fact.innerHTML = catFact
   }
   

@@ -7,4 +7,8 @@ router.post("/login", controllers.auth.login);
 router.get("/logout", controllers.auth.logout);
 router.post("/signup", controllers.user.create);
 
+router.get("/cats/:zipcode", controllers.petfinder.getCats)
+router.get("/dogs/:zipcode", controllers.petfinder.getDogs)
+
+
 module.exports = router;

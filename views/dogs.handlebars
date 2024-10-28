@@ -1,141 +1,52 @@
     <main class="main">
         <div class="main__location">
             <h4 class="main__location_title">Enter your Location</h4>
-            <form class="main__location_form flex">
+            <form class="main__location_form">
                 <input type="text" class="main__location_form_input" id="location" name="location" placeholder="Enter your zipcode here">
                 <button class="main__location_form_button flex" type="submit">
-                    <img src="images/search-button.png" alt="search" height="20px" class="main__location_form_button-img">
+                    <img src="../images/search-button.png" alt="search" height="20px" class="main__location_form_button-img">
                 </button>
             </form>
         </div>
-        <div class="main__page-title"></div>
-        <div class="main__cards-container flex"></div>
+        {{#if dogs}}
+        <h3>Available Dogs Near {{zipcode}}</h3>
+        <div class="cards__container">
+            {{#each dogs}}
+            <div class="card">
+                <img src="
+                    {{#if this.primary_photo_cropped}}
+                        {{this.primary_photo_cropped.full}}
+                    {{else}}
+                        ../images/placeholder-img.png
+                    {{/if}}" 
+                    alt="{{this.name}}" width="300" class="card-img">
+                <p class="card-info">Name: {{this.name}}</p>
+                <p class="card-info">Age Group: {{this.age}}</p>
+                <p class="card-info">Gender: {{this.gender}}</p>
+                <p class="card-info">Distance: {{this.distance}}</p>
+            {{/each}}
+            </div>
+        </div>
+        {{else}}
+        <h5>{{error.message}}</h5>
+        {{/if}}
     </main>
-<script>
-    const clientId = "GiSioqvTD4tdsfeNRgjcQstuUR4V1aN2P3sY1I32C6dF2MGdLX"
-    const clientSecret = "uY0TDw81TXWq3X4aUHuoga5loTu1wKqHNkusbb2M"
-    const TOKEN_URL = "https://api.petfinder.com/v2/oauth2/token"
-    const API_URL = `https://api.petfinder.com/v2/animals?sort=distance&type=dog`
 
+<script>
     const form = document.querySelector(".main__location_form")
-    const dogCardsContainer = document.querySelector(".main__cards-container")
-    const dogPageTitleContainer = document.querySelector(".main__page-title")
 
     form.onsubmit = function(e) {
         e.preventDefault()
         let zipcode = form.location.value.trim()
+        console.log(zipcode)
         if(!zipcode || !(checkZipcodeFormat(zipcode))) {
-            form.location.value = ""
-            dogCardsContainer.innerHTML = `<h5> Location not found... Please try another zipcode</h5>`
-            dogPageTitleContainer.innerHTML = ""
+            form.zipcode.value = ""
             return
         } else {
-            localStorage.setItem('user-zipcode', zipcode)
+            localStorage.setItem('zipcode', zipcode)
         }
         form.location.value = ""
-        fetchApiInfo(zipcode)
-    }
-
-    
-    function fetchApiInfo(zipcode) {
-        fetch(TOKEN_URL, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/x-www-form-urlencoded'
-            },
-            body: `grant_type=client_credentials&client_id=${clientId}&client_secret=${clientSecret}`
-        })
-        .then(function(res) {
-            if (!res.ok) {
-                throw new Error('No Token Found')
-            }
-            return res.json()
-        })
-        .then(function(data) {
-            const accessToken = data.access_token
-
-            return fetch(`${API_URL}&location=${zipcode}`, {
-                method: 'GET',
-                headers: {
-                    "Content-Type": "application/vnd.api+json",
-                    "Authorization": `Bearer ${accessToken}`
-                }
-            })
-        })
-        .then(function(res) {
-            if (!res.ok) {
-                throw new Error('No Data Found')
-            }
-            return res.json()
-        })
-        .then(renderDogs)
-        .catch(function(err) {
-            console.log(err.message)
-        }) 
-    }
-
-    function renderDogs(dogData) {
-        const dogDataArray = Array.from(dogData.animals)
-        console.log(dogDataArray)
-
-        {{!-- Resets Cards --}}
-        dogPageTitleContainer.innerHTML = ""
-        dogCardsContainer.innerHTML = ""
-        {{!-- Location Title --}}
-        zipcode = localStorage.getItem('user-zipcode')
-        const dogPageTitle = document.createElement('h3')
-        dogPageTitle.textContent = `Dogs Available Near ${zipcode}`
-        dogPageTitleContainer.appendChild(dogPageTitle)
-
-        {{!-- Animal Cards --}}
-        for (let dogNum = 0; dogNum < dogDataArray.length; dogNum++) {
-            {{!-- creates card for each dog --}}
-
-            let card = dogDataArray[dogNum]
-            card = document.createElement('div')
-            card.className = "main__cards-container_card"
-            dogCardsContainer.appendChild(card)
-
-            {{!-- Creates imgs --}}
-            let dogPic = document.createElement('img')
-            dogPic.className = "main__cards-container_card-img"
-            if(dogDataArray[dogNum].primary_photo_cropped === null) {
-                dogPic.src = "../images/placeholder-img.png"
-            } else {
-                dogPic.src = dogDataArray[dogNum].primary_photo_cropped.full
-            }
-            dogPic.width = "300"
-            dogPic.alt = dogDataArray[dogNum].name
-            card.appendChild(dogPic)
-
-            {{!-- creates name --}}
-
-            dogName = document.createElement('p')
-            dogName.textContent = "Name: " + dogDataArray[dogNum].name
-            dogName.className = "main__cards-container_card-info"
-            card.appendChild(dogName)
-
-            {{!-- creates age group --}}
-
-            dogAgeGroup = document.createElement('p')
-            dogAgeGroup.textContent = "Age Group: " + dogDataArray[dogNum].age
-            dogAgeGroup.className="main__cards-container_card-info"
-            card.appendChild(dogAgeGroup)
-
-            {{!-- creates gender --}}
-
-            let dogGender = document.createElement('p')
-            dogGender.textContent = "Gender: " + dogDataArray[dogNum].gender
-            dogGender.className = "main__cards-container_card-info"
-            card.appendChild(dogGender)
-
-            {{!-- creates distance --}}
-
-            let dogDistance = document.createElement('p')
-            dogDistance.textContent = "Distance: " + dogDataArray[dogNum].distance + " miles"
-            dogDistance.className = "main__cards-container_card-info"
-            card.appendChild(dogDistance)
-        }
+        window.location.href=`/dogs/${zipcode}`
     }
 
     {{!-- Checks Zipcode Format --}}

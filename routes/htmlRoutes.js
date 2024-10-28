@@ -20,9 +20,13 @@ router.get("/cats", async (req, res) => {
   res.render("cats")
 })
 
+router.get("/cats/:zipcode", controllers.petfinder.getCats)
+
 router.get("/dogs", async (req, res) => {
   res.render("dogs")
 })
+
+router.get("/dogs/:zipcode", controllers.petfinder.getDogs)
 
 router.get("/favorites", ({ session: { isLoggedIn } }, res) => {
   res.render("favorites", { isLoggedIn })
