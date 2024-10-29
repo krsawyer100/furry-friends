@@ -23,7 +23,13 @@ app.use(
   })
 );
 
-app.engine("handlebars", exphbs.engine());
+app.engine("handlebars", exphbs.engine({
+  helpers: {
+    isEqual: function(a, b) {
+      return a === b
+    }
+  }
+}));
 app.set("view engine", "handlebars");
 
 app.use(express.json());

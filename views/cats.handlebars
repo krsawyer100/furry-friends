@@ -27,13 +27,24 @@
             {{/each}}
             </div>
         </div>
+
+        <div class="pagination">
+            <button id="prev-page" {{#if (isEqual currentPage 1)}}disabled{{/if}}>Previous</button>
+            <span>Page {{currentPage}} of {{totalPages}}</span>
+            <button id="next-page" {{#if (isEqual currentPage totalPages)}}disabled{{/if}}>Next</button>
+        </div>
+
         {{else}}
         <h5>{{error.message}}</h5>
         {{/if}}
+</div>
+
     </main>
 
 <script>
     const form = document.querySelector(".main__location_form")
+    const prevPageBtn = document.getElementById('prev-page')
+    const nextPageBtn = document.getElementById('next-page')
 
     form.onsubmit = function(e) {
         e.preventDefault()
@@ -46,11 +57,29 @@
             localStorage.setItem('zipcode', zipcode)
         }
         form.location.value = ""
-        window.location.href=`/cats/${zipcode}`
+        window.location.href=`/cats/${zipcode}?page=1`
     }
 
     {{!-- Checks Zipcode Format --}}
     const checkZipcodeFormat = (str) => {
     return /^\d{5}(-\d{4})?$/.test(str);
     }
+
+    prevPageBtn.onclick = function() {
+        nagivatePage(-1)
+    }
+
+    nextPageBtn.onclick = function() {
+        nagivatePage(1)
+    }
+
+    function nagivatePage(step) {
+        const CURRENT_URL = new URL(window.location.href)
+        const currentPage = parseInt(CURRENT_URL.searchParams.get('page')) || 1
+        const newPage = currentPage + step
+
+        CURRENT_URL.searchParams.set("page", newPage)
+        window.location.href = CURRENT_URL.toString()
+    }
+
 </script>

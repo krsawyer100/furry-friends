@@ -6,7 +6,10 @@ const TOKEN_URL = "https://api.petfinder.com/v2/oauth2/token"
 
 async function getCats(req, res) {
     const { zipcode } = req.params
-    const API_URL = `https://api.petfinder.com/v2/animals?sort=distance&type=cat`
+    const page = req.query.page || 1
+    const limit = 20
+
+    const API_URL = `https://api.petfinder.com/v2/animals?sort=distance&type=cat&location=${zipcode}&page=${page}&limit=${limit}`
 
     try {
         const fetch = (await import('node-fetch')).default
@@ -24,7 +27,7 @@ async function getCats(req, res) {
         const tokenData = await tokenResponse.json()
         const accessToken = tokenData.access_token
 
-        const catResponse = await fetch(`${API_URL}&location=${zipcode}`, {
+        const catResponse = await fetch(API_URL, {
             method: 'GET',
             headers: {
                 "Content-Type": "application/vnd.api+json",
@@ -35,7 +38,14 @@ async function getCats(req, res) {
         if (!catResponse.ok) throw new Error('No Data Found')
 
         const catData = await catResponse.json()
-        return res.render("cats", { cats: catData.animals, zipcode: zipcode })
+        const totalPages = catData.pagination.total_pages
+
+        return res.render("cats", { 
+            cats: catData.animals, 
+            zipcode: zipcode,
+            currentPage: Number(page),
+            totalPages: totalPages 
+        })
     } catch (error) {
         console.error(error)
         res.render('cats', { error: error.message })
@@ -44,7 +54,10 @@ async function getCats(req, res) {
 
 async function getDogs(req, res) {
     const { zipcode } = req.params
-    const API_URL = `https://api.petfinder.com/v2/animals?sort=distance&type=dog`
+    const page = req.query.page || 1
+    const limit = 20
+
+    const API_URL = `https://api.petfinder.com/v2/animals?sort=distance&type=dog&location=${zipcode}&page=${page}&limit=${limit}`
 
     try {
         const fetch = (await import('node-fetch')).default
@@ -62,7 +75,7 @@ async function getDogs(req, res) {
         const tokenData = await tokenResponse.json()
         const accessToken = tokenData.access_token
 
-        const dogResponse = await fetch(`${API_URL}&location=${zipcode}`, {
+        const dogResponse = await fetch(API_URL, {
             method: 'GET',
             headers: {
                 "Content-Type": "application/vnd.api+json",
@@ -73,7 +86,14 @@ async function getDogs(req, res) {
         if (!dogResponse.ok) throw new Error('No Data Found')
 
         const dogData = await dogResponse.json()
-        return res.render("dogs", { dogs: dogData.animals, zipcode: zipcode })
+        const totalPages = dogData.pagination.total_pages
+
+        return res.render("dogs", { 
+            dogs: dogData.animals, 
+            zipcode: zipcode,
+            currentPage: Number(page),
+            totalPages: totalPages  
+        })
     } catch (error) {
         console.error(error)
         res.render('dogs', { error: error.message })
