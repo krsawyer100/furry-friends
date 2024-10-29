@@ -14,6 +14,41 @@ body {
   background-color: var(--white);
 }
 
+h1 {
+  font-size: 60pt;
+  font-weight: 600;
+  margin: 0 100px;
+}
+
+h2 {
+  font-size: 25pt;
+  font-weight: 500px;
+  margin: 0 100px;
+}
+
+h3 {
+  margin: 25px 100px;
+  font-size: 32pt;
+  color: var(--text);
+  font-weight: 600;
+  padding-top: 20px;
+}
+
+h4 {
+  font-size: 24pt;
+  font-weight: 500;
+  margin: 0 100px;
+}
+
+h5 {
+  font-size: 18pt;
+  font-weight: 500;
+}
+
+.main {
+  min-height: 100vh;
+}
+
 /* Header */
 
 .header {
@@ -63,21 +98,239 @@ body {
 
 .nav_link {
   text-decoration: none;
+  color: var(--primary);
 }
 
 .logo_img:hover {
-  scale: .99;
+  transform: scale(.99);
   content: url(images/logo-blue.png);
 }
 
 .nav_link:hover {
   font-size: 15.7px;
   text-decoration: solid underline;
+  color: var(--secondary);
+}
+
+/* Footer */
+.footer {
+  height: 85px;
+  width: 100%;
+  font-size: 10pt;
+  font-weight: 300;
+  background-color: var(--primary);
+  color: var(--white);
+  margin-top: 25px;
+  border-top: var(--white) solid 3px;
+  bottom: 0;
+}
+
+.footer__content {
+  display: flex;
+  height: 85px;
+  margin: 0 100px;
+  justify-content: space-evenly;
+  column-gap: 30px;
+  row-gap: 10px;
+  align-content: center;
+  flex-wrap: wrap;
+}
+
+.footer__content_social-media, .footer__content_copyright {
+  display: flex;
+  column-gap: 10px;
+  align-items: center;
+}
+
+.footer__content_social-media_link {
+  text-decoration: none;
+}
+
+.footer__content_social-media_icon:hover {
+  scale: .95;
+
 }
 
 /* Homepage */
+.main__hero {
+  background-image: url(./images/homepage-banner.jpg);
+  height: 700px;
+  width: 100%;
+  background-size: cover;
+  background-position: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 25px 0;
+}
 
+.main__hero, h1 {
+  padding-top: 100px;
+}
 
+.main__hero, h2 {
+  padding-top: 30px;
+}
+
+.main__hero__cta {
+  color: var(--white);
+}
+
+.main__hero__cta__button {
+  border: none;
+  padding-top: 50px;
+  padding: 15px 30px;
+  margin: 90px 100px;
+  border-radius: 10px;
+  cursor: pointer;
+}
+
+.main__hero__cta__button:hover { 
+  transform: scale(.97);
+}
+
+.main__pet-adoption {
+  display: flex;
+  height: 700px;
+  background-image: url("images/bones-background.jpg");
+  background-size: cover;
+  background-position: center;
+  text-align: center;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 50px 0; 
+}
+
+.main__pet-adoption_title {
+  margin: 0 100px;
+}
+
+.main__pet__adoption-img_container {
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-evenly;
+  padding: 70px 0;
+  margin: 0 100px;
+  flex-wrap: wrap;
+  display: flex;
+}
+
+.main__link_img-cat, .main__link_img-dog {
+  width: 250px;
+  height: auto;
+  padding: 15px 50px;
+}
+
+.main__link_img-cat:hover, .main__link_img-dog:hover {
+  transform: scale(.97);
+}
+
+.main__link_img-cat:hover {
+  content: url(images/cat-button-blue.png);
+  z-index: 0;
+}
+
+.main__link_img-dog:hover {
+  content: url(images/dog-button-blue.png);
+  z-index: 0;
+}
+
+.main__pet__facts {
+  display: flex;
+  background-color: var(--primary);
+  background-size: cover;
+  background-position: center;
+  text-align: center;
+  height: 700px;
+  justify-content: center;
+}
+
+.main__facts_img {
+  width: 40%;
+  height: auto;
+}
+
+.main__pet__facts_container {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  color: var(--white);
+  margin: 0 100px;   
+  display: flex;    
+}
+
+.main__pet__facts__div {
+  display: flex;
+  width: 60%;
+  flex-direction: column;
+  text-align: left;
+  padding-left: 70px;
+}
+
+.main__pet__facts_text{
+  margin: 0 0 25px;
+  color: var(--white);
+  text-align: center;
+}
+
+.main__involved {
+  margin: 0 100px;
+  height: auto;
+  padding-bottom: 75px;
+}
+
+.main__involved-title {
+  margin: 25px 0 35px;
+}
+
+.main__involved_info-container {
+  display: flex;
+  column-gap: 25px;
+  row-gap: 100px;
+  flex-wrap: wrap;
+  justify-content: space-evenly;
+}
+
+.main__involved_info_img {
+  width: 250px;
+  height: 200px;
+  object-fit: cover;
+}
+
+.main__involved_info_subtitle {
+  color: var(--secondary);
+  padding: 10px 0;
+  margin-left: auto;
+}
+
+.main__involved_info-container_adopt, .main__involved_info-container_foster, .main__involved_info-container_volunteer {
+  width: 300px;
+  height: 500px;
+}
+
+.main__involved_info_text {
+  text-wrap: wrap;
+  font-size: 12pt;
+  margin: 15px 0 20px;
+}
+
+.main__involved_info_link {
+  color: var(--primary);
+  text-decoration: none;
+  font-size: 16pt;
+  padding-top: 25px;
+}
+
+.main__involved_info_link:hover {
+  color: var(--secondary);
+  text-decoration: underline;
+  font-size: 15.9pt;
+  transition: 0.4s;
+}
 
 /* Cat & Dog Page */
 
