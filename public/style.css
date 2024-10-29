@@ -12,36 +12,37 @@ body {
   font-family: "Rosario", sans-serif;
   font-weight: 400;
   background-color: var(--white);
+  min-height: 100vh;
 }
 
 h1 {
-  font-size: 60pt;
+  font-size: 60px;
   font-weight: 600;
   margin: 0 100px;
 }
 
 h2 {
-  font-size: 25pt;
+  font-size: 25px;
   font-weight: 500px;
   margin: 0 100px;
 }
 
 h3 {
   margin: 25px 100px;
-  font-size: 32pt;
+  font-size: 32px;
   color: var(--text);
   font-weight: 600;
   padding-top: 20px;
 }
 
 h4 {
-  font-size: 24pt;
+  font-size: 24px;
   font-weight: 500;
   margin: 0 100px;
 }
 
 h5 {
-  font-size: 18pt;
+  font-size: 18px;
   font-weight: 500;
 }
 
@@ -53,7 +54,7 @@ h5 {
 
 .header {
   background-color: var(--white);
-  padding: 5px 10px;
+  padding: 5px 20px 5px 10px;
   border-bottom: var(--primary) 3px solid;
   position: sticky;
   top: 0;
@@ -99,6 +100,8 @@ h5 {
 .nav_link {
   text-decoration: none;
   color: var(--primary);
+  font-size: 18px;
+  font-weight: 500;
 }
 
 .logo_img:hover {
@@ -107,14 +110,15 @@ h5 {
 }
 
 .nav_link:hover {
-  font-size: 15.7px;
+  transform: scale(.98);
+  font-weight: 400;
   text-decoration: solid underline;
   color: var(--secondary);
 }
 
 /* Footer */
 .footer {
-  height: 85px;
+  height: auto;
   width: 100%;
   font-size: 10pt;
   font-weight: 300;
@@ -129,11 +133,12 @@ h5 {
   display: flex;
   height: 85px;
   margin: 0 100px;
-  justify-content: space-evenly;
+  justify-content: center;
   column-gap: 30px;
   row-gap: 10px;
   align-content: center;
   flex-wrap: wrap;
+  flex-direction: column;
 }
 
 .footer__content_social-media, .footer__content_copyright {
@@ -149,6 +154,83 @@ h5 {
 .footer__content_social-media_icon:hover {
   scale: .95;
 
+}
+
+/* Login/Sign-up Pages */
+.login-title {
+  text-align: center;
+  margin-top: 40px;
+}
+
+.login-container {
+  padding: 20px 50px;
+  width: 500px;
+  margin: 30px auto 120px;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  background-color: var(--white);
+  border: var(--primary) solid 3px;
+  border-radius: 8px;
+}
+
+.login-form {
+  display: flex;
+  flex-direction: column;
+}
+
+.login-form > label {
+  margin-top: 25px;
+  margin-bottom: 5px;
+}
+
+.login-form > input {
+  border: var(--primary) solid 2px;
+  height: 25px;
+  border-radius: 5px;
+  background-color: var(--white);
+}
+
+.login-form > input:hover {
+  border: var(--secondary) solid 2px;
+}
+
+.login-form > button {
+  width: 300px;
+  margin: 30px auto 40px;
+  border: none;
+  background-color: var(--primary);
+  padding: 10px 5px; 
+  font-size: 14px;
+  font-weight: 500;
+  border-radius: 5px;
+  font-family: "Rosario", sans-serif;
+  color: var(--white);
+}
+
+.login-form > button:hover {
+  background-color: var(--secondary);
+  transform: scale(.98);
+  cursor: pointer;
+}
+
+.login-container > p {
+  text-align: center;
+}
+
+.login-container > p > a {
+  color: var(--primary);
+  font-weight: 500;
+}
+
+.login-container > p > a:hover {
+  color: var(--secondary);
+  font-weight: 400;
+  transform: scale(.98);
+}
+
+.login-error {
+  color: red;
 }
 
 /* Homepage */
@@ -244,7 +326,9 @@ h5 {
   background-size: cover;
   background-position: center;
   text-align: center;
-  height: 700px;
+  min-height: 700px;
+  height: auto;
+  width: 100%;
   justify-content: center;
 }
 
@@ -259,8 +343,8 @@ h5 {
   align-items: center;
   justify-content: center;
   color: var(--white);
-  margin: 0 100px;   
-  display: flex;    
+  margin: 0 100px;     
+
 }
 
 .main__pet__facts__div {
@@ -269,6 +353,7 @@ h5 {
   flex-direction: column;
   text-align: left;
   padding-left: 70px;
+  padding: 20px 0 30px;
 }
 
 .main__pet__facts_text{
@@ -333,8 +418,129 @@ h5 {
 }
 
 /* Cat & Dog Page */
+.main__location {
+  text-align: center;
+  align-items: center;
+  margin: 25px 100px;
+}
 
+.main__location_title {
+  margin-bottom: 20px;
+}
 
+.main__location_form {
+  display: flex;
+  justify-content: center;
+}
+
+.main__location_form_input {
+  width: 500px;
+  height: 30px;
+  border: var(--primary) solid 2px;
+  border-radius: 5px;
+  background-color: var(--white);
+}
+
+.main__location_form_button {
+  padding: 3px 5px;
+  background-color: var(--white);
+  border-radius: 5px;
+  border: var(--primary) solid 2px;
+  margin-left: 5px;
+}
+
+.main__location_form_button:hover {
+  scale: .97;
+  cursor: pointer;
+  border: var(--secondary) 2px solid;
+  content: url(./images/search-button-blue.png);
+  z-index: 0;
+}
+
+.main__location_form_input:hover {
+  border: var(--secondary) 2px solid;
+  z-index: 0;
+}
+
+.main__location_form_input::placeholder {
+  text-align: center;
+  color: var(--text);
+}
+
+.cards-title {
+  text-align: center;
+}
+
+.cards__container {
+  display: flex;
+  margin: 30px 100px 75px;
+  flex-wrap: wrap;
+  column-gap: 25px;
+  row-gap: 25px;
+  justify-content: center;
+}
+
+.card {
+  display: flex;
+  flex-direction: column;
+  padding: 15px;
+  background-color: var(--primary);
+  border-radius: 10px;
+  text-wrap: wrap;
+  width: 275px;
+  height: 375px;
+  text-align: center;
+  justify-content: center;
+  align-items: center;
+}
+
+/* .main__cards-container_card-name {
+  color: var(--white);
+  padding: 0 0 15px 0;
+} */
+
+.card-img {
+  height: 175px;
+  width: 200px;
+  object-fit: cover;
+  object-position: center;
+  border: var(--white) solid 2px;
+}
+
+.card-info-container {
+  padding: 15px 0 5px 0;
+  color: var(--white);
+}
+
+/* .card:hover {
+  background-color: var(--secondary);
+  scale: .99;
+  transition: 0.4s;
+  cursor: pointer;
+  z-index: 0;
+} */
+
+.pagination {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+}
+
+.pagination > button {
+  border: var(--primary) solid 2px;
+  border-radius: 5px;
+  padding: 3px 5px;
+  width: 100px;
+  background-color: var(--white);
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.pagination > button:hover {
+  border: var(--secondary) solid 2px;
+  transform: scale(.98);
+  cursor: pointer;
+}
 
 /* Login & Sign-up Page */
 

@@ -1,4 +1,4 @@
-USE mysql_project_db;
+USE furry_friends_db;
 
 CREATE TABLE users (
   id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
