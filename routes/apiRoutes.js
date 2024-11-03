@@ -10,5 +10,7 @@ router.post("/signup", controllers.user.create);
 router.get("/cats/:zipcode?page=X", controllers.petfinder.getCats)
 router.get("/dogs/:zipcode?page=X", controllers.petfinder.getDogs)
 
+router.get("/pet/:id", controllers.petfinder.getAnimal)
+
 
 module.exports = router;

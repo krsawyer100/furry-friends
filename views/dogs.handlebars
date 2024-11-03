@@ -12,8 +12,8 @@
         <h3>Available Dogs Near {{zipcode}}</h3>
         <div class="cards__container">
             {{#each dogs}}
-            <div class="card">
-                <a href="">Favorite</a>
+            <a class="card">
+                {{!-- <a href="">Favorite</a> --}}
                 <img src="
                     {{#if this.primary_photo_cropped}}
                         {{this.primary_photo_cropped.full}}
@@ -22,12 +22,15 @@
                     {{/if}}" 
                     alt="{{this.name}}" width="300" class="card-img">
                 <div class="card-info-container">
-                    <p class="card-info">Name: {{this.name}}</p>
-                    <p class="card-info">Age Group: {{this.age}}</p>
-                    <p class="card-info">Gender: {{this.gender}}</p>
-                    <p class="card-info">Distance: {{this.distance}}</p>
+                    <h4 class="animal-name">{{this.name}}</h4>
+                    <div class="card-info-animal">
+                        <p class="card-info">{{this.age}}</p>
+                        <span class="info-divider"></span>
+                        <p class="card-info">{{this.gender}}</p>
+                    </div>
+                    <p class="card-info-location">{{this.distance}} Miles Away</p>
                 </div>
-            </div>
+            </a>
             {{/each}}
         </div>
 
