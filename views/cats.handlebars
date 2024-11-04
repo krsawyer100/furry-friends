@@ -13,7 +13,6 @@
         <div class="cards__container">
             {{#each cats}}
             <a class="card" id="{{this.id}}" href="/pet/{{this.id}}">
-                {{!-- <a class="favorite-btn">Favorite</a> --}}
                 <img src="
                     {{#if this.primary_photo_cropped}}
                         {{this.primary_photo_cropped.full}}

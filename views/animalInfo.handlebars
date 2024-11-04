@@ -1,11 +1,18 @@
 <main>
     <div class="slideshow-container">
+        {{#if animal.photos}}
             {{#each animal.photos}}
             <div class="mySlides fade">
                 <div class="numbertext"></div>
                 <img src="{{this.small}}" width="100%">
             </div>
             {{/each}}
+            {{else}}
+            <div class="mySlides fade">
+                <img src="../images/placeholder-img.png" width="100%">
+            </div>
+
+        {{/if}}
             <a class="prevImage" onclick="plusSlides(-1)">&#10094;</a>
             <a class="nextImage" onclick="plusSlides(1)">&#10095;</a>
             <div class="dots-container">
@@ -14,10 +21,71 @@
                 {{/each}}
             </div>
     </div>
-    <h2>{{animal.name}}</h2>
+    <section class="animal-info">
+        <h2>{{animal.name}}</h2>
+        <div class="information">
+            <h5>{{animal.breeds.primary}}</h5>
+            <span class="divider"></span>
+            <h5>{{animal.contact.address.city}}, {{animal.contact.address.state}}</h5>
+        </div>
+        <div class="information">
+            <p>{{animal.age}}</p>
+            <span class="small-divider"></span>
+            <p>{{animal.gender}}</p>
+            <span class="small-divider"></span>
+            <p>{{animal.size}}</p>
+            <span class="small-divider"></span>
+            <p>{{animal.colors.primary}}</p>
+        </div>
+    </section>
+    <nav class="animal-nav">
+        <a class="animal-nav-link" href="#about" id="link1">About</a>
+        <a class="animal-nav-link" href="#adoption" id="link2">Adoption</a>
+    </nav>
+    <section class="more-information">
+        <div id="about">
+            <h3>More Information About {{animal.name}}</h3>
+            <p>
+                For more information about {{animal.name}}, <a href="{{animal.url}}" target="_BLANK">click here!</a>
+            </p>
+        </div>
+        <div id="adoption">
+            <h3>Adoption Information</h3>
+            {{#if animal.contact.address.address1}}
+            <div class="location">
+                <h4>Location</h4>
+                <p>{{animal.contact.address.address1}}, {{animal.contact.address.city}}, {{animal.contact.address.state}}</p>
+            </div>
+            {{else}}
+            <div class="location">
+                <h4>Location</h4>
+                <p>{{animal.contact.address.city}}, {{animal.contact.address.state}}</p>
+            </div>
+            {{/if}}
+            <div class="email">
+                <h4>Email</h4>
+                <p>{{animal.contact.email}}</p>
+            </div>
+            {{#if animal.contact.phone}}
+            <div class="phone">
+                <h4>Phone</h4>
+                <p>{{animal.contact.phone}}
+            {{/if}}
+            <p>
+                For more information about adopting {{animal.name}}, <a href="{{animal.url}}" target="_BLANK">click here!</a>
+            </p>
+
+        </div>
+    </section>
+
 </main>
 
 <script>
+    const animalNav = document.querySelector(".animal-nav")
+    const animalNavLink = document.querySelectorAll(".animal-nav-link")
+    const navLinkOne = document.getElementById("link1")
+    const navLinkTwo = document.getElementById("link2")
+
     let slideIndex = 1
     showSlides(slideIndex)
 
@@ -54,4 +122,14 @@
         const numberText = slides[slideIndex - 1].querySelector(".numbertext")
         numberText.textContent = `${slideIndex}/${totalSlides}`
     }
+
+    document.addEventListener("click", function(e) {
+        if(e.target === navLinkOne) {
+            navLinkOne.classList.add('active')
+            navLinkTwo.classList.remove('active')
+        } if(e.target === navLinkTwo) {
+            navLinkTwo.classList.add('active')
+            navLinkOne.classList.remove('active')
+        }
+    })
 </script>
