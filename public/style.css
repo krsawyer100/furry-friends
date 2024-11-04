@@ -169,7 +169,6 @@ p {
 .nav_link:hover {
   transform: scale(.98);
   font-weight: 400;
-  text-decoration: solid underline;
   color: var(--secondary);
 }
 

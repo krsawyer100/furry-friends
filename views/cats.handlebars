@@ -40,7 +40,7 @@
         </div>
 
         {{else}}
-        <h5>{{error.message}}</h5>
+        <h5>{{error}}</h5>
         {{/if}}
 </div>
 
@@ -72,12 +72,16 @@
     return /^\d{5}(-\d{4})?$/.test(str);
     }
 
-    prevPageBtn.onclick = function() {
-        nagivatePage(-1)
+    if(prevPageBtn) {
+        prevPageBtn.onclick = function() {
+            navigatePage(-1)
+        }
     }
 
-    nextPageBtn.onclick = function() {
-        nagivatePage(1)
+    if(nextPageBtn) {
+        nextPageBtn.onclick = function() {
+            navigatePage(1)
+        }
     }
 
     function nagivatePage(step) {

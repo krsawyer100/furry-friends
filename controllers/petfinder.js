@@ -1,156 +1,95 @@
 require("dotenv").config();
+const petfinder = require("@petfinder/petfinder-js")
 
 const clientId = process.env.PETFINDER_CLIENT_ID
 const clientSecret = process.env.PETFINDER_CLIENT_SECRET
-const TOKEN_URL = "https://api.petfinder.com/v2/oauth2/token"
+
+let client = new petfinder.Client({
+    apiKey: clientId, secret: clientSecret
+})
 
 async function getCats(req, res) {
     const { zipcode } = req.params
-    const page = req.query.page || 1
+    let page =  req.query.page || 1
     const limit = 20
 
-    const API_URL = `https://api.petfinder.com/v2/animals?sort=distance&type=cat&location=${zipcode}&page=${page}&limit=${limit}`
-
     try {
-        const fetch = (await import('node-fetch')).default
-
-        const tokenResponse = await fetch(TOKEN_URL, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/x-www-form-urlencoded'
-            },
-            body: `grant_type=client_credentials&client_id=${clientId}&client_secret=${clientSecret}`
+        const catResult = await client.animal.search({
+            type: "cat",
+            location: zipcode,
+            sort: "distance",
+            page,
+            limit
         })
 
-        if (!tokenResponse.ok) throw new Error('No Token Found')
-        
-        const tokenData = await tokenResponse.json()
-        const accessToken = tokenData.access_token
+        const totalPages = catResult.data.pagination.total_pages
 
-        const catResponse = await fetch(API_URL, {
-            method: 'GET',
-            headers: {
-                "Content-Type": "application/vnd.api+json",
-                "Authorization": `Bearer ${accessToken}`
+        const catData = catResult.data.animals.map(function(cat) {
+            return {
+                ...cat,
+                distance: Math.round(cat.distance)
             }
         })
 
-        if (!catResponse.ok) throw new Error('No Data Found')
-
-        const catData = await catResponse.json()
-        const totalPages = catData.pagination.total_pages
-
-        const roundedCats = catData.animals.map(cat => ({
-            ...cat,
-            distance: Math.round(cat.distance)
-        }))
-
-        return res.render("cats", { 
-            cats: roundedCats, 
+        return res.render("cats", {
+            cats: catData,
             zipcode: zipcode,
             currentPage: Number(page),
-            totalPages: totalPages 
+            totalPages: totalPages
         })
     } catch (error) {
-        console.error(error)
-        res.render('cats', { error: error.message })
+        console.error("Error fetching cats:", error);
+        res.render('cats', { error: error.message });
     }
 }
-
 async function getDogs(req, res) {
     const { zipcode } = req.params
-    const page = req.query.page || 1
+    let page =  req.query.page || 1
     const limit = 20
 
-    const API_URL = `https://api.petfinder.com/v2/animals?sort=distance&type=dog&location=${zipcode}&page=${page}&limit=${limit}`
-
     try {
-        const fetch = (await import('node-fetch')).default
-
-        const tokenResponse = await fetch(TOKEN_URL, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/x-www-form-urlencoded'
-            },
-            body: `grant_type=client_credentials&client_id=${clientId}&client_secret=${clientSecret}`
+        const dogResult = await client.animal.search({
+            type: "dog",
+            location: zipcode,
+            sort: "distance",
+            page,
+            limit
         })
 
-        if (!tokenResponse.ok) throw new Error('No Token Found')
-        
-        const tokenData = await tokenResponse.json()
-        const accessToken = tokenData.access_token
+        const totalPages = dogResult.data.pagination.total_pages
 
-        const dogResponse = await fetch(API_URL, {
-            method: 'GET',
-            headers: {
-                "Content-Type": "application/vnd.api+json",
-                "Authorization": `Bearer ${accessToken}`
+        const dogData = dogResult.data.animals.map(function(dog) {
+            return {
+                ...dog,
+                distance: Math.round(dog.distance)
             }
         })
 
-        if (!dogResponse.ok) throw new Error('No Data Found')
-
-        const dogData = await dogResponse.json()
-        const totalPages = dogData.pagination.total_pages
-
-        const roundedDogs = dogData.animals.map(dog => ({
-            ...dog,
-            distance: Math.round(dog.distance)
-        }))
-
-        return res.render("dogs", { 
-            dogs: roundedDogs, 
+        return res.render("dogs", {
+            cats: dogData,
             zipcode: zipcode,
             currentPage: Number(page),
-            totalPages: totalPages  
+            totalPages: totalPages
         })
     } catch (error) {
-        console.error(error)
-        res.render('dogs', { error: error.message })
+        console.error("Error fetching dogs:", error);
+        res.render('dogs', { error: error.message });
     }
 }
 
 async function getAnimal(req, res) {
-    const id = req.params.id 
-
-    console.log("id: " + id)
-
-    const API_URL = `https://api.petfinder.com/v2/animals/${id}`
-
-    console.log("API URL: " + API_URL)
+    const { id } = req.params 
 
     try {
-        const fetch = (await import('node-fetch')).default
 
-        const tokenResponse = await fetch(TOKEN_URL, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/x-www-form-urlencoded'
-            },
-            body: `grant_type=client_credentials&client_id=${clientId}&client_secret=${clientSecret}`
-        })
+        const animalResult = await client.animal.show(id)
 
-        if (!tokenResponse.ok) throw new Error('No Token Found')
-        
-        const tokenData = await tokenResponse.json()
-        const accessToken = tokenData.access_token
+        if (!animalResult.data.animal) throw new Error('No Animal Data Found')
 
-        const animalResponse = await fetch(API_URL, {
-            method: 'GET',
-            headers: {
-                "Content-Type": "application/vnd.api+json",
-                "Authorization": `Bearer ${accessToken}`
-            }
-        })
-
-        if (!animalResponse.ok) throw new Error('No Data Found')
-
-        const animalData = await animalResponse.json()
-
-        console.log("Data: ", animalData.animal)
+        console.log("Data: ", animalResult.data.animal)
 
         return res.render("animalInfo", { 
-            animal: animalData.animal
+            animal: animalResult.data.animal
         })
 
     } catch(error) {

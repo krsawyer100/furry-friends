@@ -69,12 +69,16 @@
     return /^\d{5}(-\d{4})?$/.test(str);
     }
 
-    prevPageBtn.onclick = function() {
-        navigatePage(-1)
+    if(prevPageBtn) {
+        prevPageBtn.onclick = function() {
+            navigatePage(-1)
+        }
     }
 
-    nextPageBtn.onclick = function() {
-        navigatePage(1)
+    if(nextPageBtn) {
+        nextPageBtn.onclick = function() {
+            navigatePage(1)
+        }
     }
 
     function navigatePage(step) {
