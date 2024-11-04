@@ -3,9 +3,9 @@
     <img src="../images/logo-orange.png" alt="Logo" width="300" class="logo_img">
   </a>
   <button class="nav__btn" aria-expanded="false" aria-controls="nav-menu">
-    <div class="nav__btn_lines" id="line-1"></div>
-    <div class="nav__btn_lines" id="line-2"></div>
-    <div class="nav__btn_lines" id="line-3"></div>
+    <div class="nav__btn_lines" id="line1"></div>
+    <div class="nav__btn_lines" id="line2"></div>
+    <div class="nav__btn_lines" id="line3"></div>
   </button>
   {{#if isLoggedIn}}
     <nav class="nav__links-container">
@@ -23,8 +23,41 @@
   {{/if}}
 </header>
 <script>
-  {{!-- const navBtn = document.querySelector(".nav__btn")
+  const navBtn = document.querySelector(".nav__btn")
   const navMenu = document.querySelector(".nav__links-container")
+  let navBtnLines = document.querySelectorAll("nav__btn_lines")
 
-  function toggleMenu() --}}
+  function toggleMenu() {
+    const isOpen = navMenu.classList.toggle('open')
+    navBtn.setAttribute('aria-expanded', isOpen)
+    if (isOpen) {
+      navBtn.focus()
+      navBtn.classList.add("open")
+      navBtnLines.forEach(function(line) {
+        line.classList.add("open")
+      })
+    } else {
+      navBtn.classList.remove("open")
+      navBtnLines.forEach(function(line) {
+        line.classList.remove("open")
+      })
+    }
+  }
+
+  navBtn.addEventListener("click", function(e) {
+    e.stopPropagation()
+    toggleMenu()
+  })
+
+  document.addEventListener("click", function(e) {
+    if(navMenu.classList.contains('open') && !navMenu.contains(e.target)) {
+        toggleMenu()
+    }
+  })
+
+  document.addEventListener("keyup", function(e) {
+    if (e.key === 'Escape' && navMenu.classList.contains('open')) {
+        toggleMenu()
+    }
+  })
 </script>

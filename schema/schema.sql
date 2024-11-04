@@ -12,7 +12,8 @@ CREATE TABLE users (
 --   breed VARCHAR(200),
 --   location VARCHAR(200),
 --   age VARCHAR(200),
---   sex VARCHAR(200),
+--   gender VARCHAR(200),
+--   image VARCHAR(2000)
 -- );
 
 -- CREATE TABLE favorites (

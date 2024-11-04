@@ -61,12 +61,85 @@ p {
   background-color: var(--white);
   padding: 5px 20px 5px 10px;
   border-bottom: var(--primary) 3px solid;
-  position: sticky;
+  position: relative;
   top: 0;
-  z-index: 1;
+  z-index: 10;
   display: flex;
   align-items: center;
 } 
+
+.nav__btn {
+  height: 40px;
+  width: 40px;
+  background-color: transparent;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 9px;
+  border: none;
+}
+
+.nav__btn:hover {
+  cursor: pointer;
+}
+
+.nav__btn_lines {
+  background-color: var(--primary);
+  width: 35px;
+  height: 5px;
+  border-radius: 5px;
+  transition: all 0.3s ease;
+}
+
+.nav__btn:hover > .nav__btn_lines {
+  background-color: var(--secondary);
+  transform: scale(0.98);
+}
+
+.nav__btn.open #line1 {
+  transform: rotate(-45deg) translate(-10px, 10px);
+  background-color: var(--secondary);
+}
+
+.nav__btn.open #line2 {
+  opacity: 0;
+  background-color: var(--secondary);
+}
+
+.nav__btn.open #line3 {
+  transform: rotate(45deg) translate(-10px, -10px);
+  background-color: var(--secondary);
+}
+
+.nav__links-container {
+  visibility: hidden;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  top: 96px;
+  right: -800px;
+  background-color: var(--white);
+  padding: 10px;
+  z-index: 4;
+  position: absolute;
+  width: 250px;
+  height: 100vh;
+  transition: visibility 0.8s;
+  border-bottom: var(--primary) solid 2px;
+  animation: slideOut 0.8s forwards;
+  -webkit-animation: slideOut 0.8s forwards;
+  border-top: var(--primary) solid 1px;
+  border-left: var(--primary) solid 2px;
+}
+
+.nav__links-container.open {
+  visibility: visible;
+  top: 96px;
+  right: 0;
+  animation: slideIn 0.8s forwards;
+  -webkit-animation: slideIn 0.8s forwards;
+}
 
 .logo {
   margin-right: auto;
@@ -77,36 +150,15 @@ p {
   width: auto;
 }
 
-.nav__links-container {
-  display: flex;
-  gap: 20px;
-  flex-wrap: nowrap;
-}
-
-.nav__btn {
-  display: none;
-  background-color: var(--white);
-  border: none;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  align-items: center;
-  gap: 8px;
-}
-
-.nav__btn_lines {
-  display: none;
-  background-color: var(--primary);
-  width: 30px;
-  height: 4px;
-  border-radius: 10px;
-}
-
 .nav_link {
   text-decoration: none;
+  text-align: center;
   color: var(--primary);
   font-size: 18px;
   font-weight: 500;
+  padding: 30px 0;
+  border-bottom: var(--primary) solid 2px;
+  width: 100%;
 }
 
 .logo_img:hover {
@@ -157,8 +209,7 @@ p {
 }
 
 .footer__content_social-media_icon:hover {
-  scale: .95;
-
+  transform: scale(.95);
 }
 
 /* Login/Sign-up Pages */
@@ -488,7 +539,6 @@ p {
 .card {
   display: flex;
   flex-direction: column;
-  /* padding: 1px 0; */
   background-color: var(--primary);
   border-radius: 20px;
   text-wrap: wrap;
@@ -498,12 +548,8 @@ p {
   justify-content: center;
   align-items: center;
   border: var(--primary) solid 2px;
+  text-decoration: none;
 }
-
-/* .main__cards-container_card-name {
-  color: var(--white);
-  padding: 0 0 15px 0;
-} */
 
 .animal-name {
   background-color: var(--white);
@@ -670,12 +716,30 @@ p {
   animation-duration: 1.5s;
 }
 
-@keyframes fade {
-  from {opacity: .4}
-  to {opacity: 1}
-}
-
 /* Login & Sign-up Page */
 
 
 /* Favorites Page */
+
+/* Media Queries */
+
+/* Animations */
+@keyframes slideIn {
+  0% { right: -800px; }
+  100% { right: 0px; }  
+}
+
+@-webkit-keyframes slideIn {
+  0% { right: -800px; }
+  100% { right: 0px; }  
+}
+
+@keyframes slideOut {
+  0% { right: 0px; }  
+  100% { right: -800px; }
+}
+
+@-webkit-keyframes slideOut {
+  0% { right: 0px; }  
+  100% { right: -800px; }
+}

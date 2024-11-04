@@ -12,7 +12,7 @@
         <h3>Available Dogs Near {{zipcode}}</h3>
         <div class="cards__container">
             {{#each dogs}}
-            <a class="card">
+            <a class="card" href="/pet/{{this.id}}">
                 {{!-- <a href="">Favorite</a> --}}
                 <img src="
                     {{#if this.primary_photo_cropped}}
