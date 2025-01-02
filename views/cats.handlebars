@@ -24,7 +24,7 @@
                         <h4 class="animal-name">{{this.name}}</h4>
                         <div class="card-info-animal">
                             <p class="card-info">{{this.age}}</p>
-                            <span class="info-divider"></span>
+                            <span class="info-divider">🐾</span>
                             <p class="card-info">{{this.gender}}</p>
                         </div>
                         <p class="card-info-location">{{this.distance}} Miles Away</p>
@@ -84,7 +84,7 @@
         }
     }
 
-    function nagivatePage(step) {
+    function navigatePage(step) {
         const CURRENT_URL = new URL(window.location.href)
         const currentPage = parseInt(CURRENT_URL.searchParams.get('page')) || 1
         const newPage = currentPage + step
@@ -92,5 +92,4 @@
         CURRENT_URL.searchParams.set("page", newPage)
         window.location.href = CURRENT_URL.toString()
     }
-
 </script>

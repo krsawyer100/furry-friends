@@ -25,27 +25,39 @@
         <h2>{{animal.name}}</h2>
         <div class="information">
             <h5>{{animal.breeds.primary}}</h5>
-            <span class="divider"></span>
+            <span class="divider">🐾</span>
             <h5>{{animal.contact.address.city}}, {{animal.contact.address.state}}</h5>
         </div>
         <div class="information">
             <p>{{animal.age}}</p>
-            <span class="small-divider"></span>
+            <span class="small-divider">🧡</span>
             <p>{{animal.gender}}</p>
-            <span class="small-divider"></span>
+            <span class="small-divider">🧡</span>
             <p>{{animal.size}}</p>
-            <span class="small-divider"></span>
-            <p>{{animal.colors.primary}}</p>
         </div>
     </section>
     <nav class="animal-nav">
-        <a class="animal-nav-link" href="#about" id="link1">About</a>
+        <a class="animal-nav-link active" href="#about" id="link1">About</a>
         <a class="animal-nav-link" href="#adoption" id="link2">Adoption</a>
     </nav>
     <section class="more-information">
         <div id="about">
-            <h3>More Information About {{animal.name}}</h3>
+            <h3>About {{animal.name}}</h3>
+            <h4>Characteristics:</h4>
             <p>
+                {{formatTags animal.tags}}
+            </p>
+            <h4>Attributes:</h4>
+            <ul class="animal-attributes">
+                <li>Spayed or Neutered: {{isTrueOrFalse animal.attributes.spayed_neutered}}</li>
+                <li>House Trained: {{isTrueOrFalse animal.attributes.house_trained}}</li>
+                {{#if animal.attributes.declawed}}
+                <li>Declawed: {{isTrueOrFalse animal.attributes.declawed}}</li>
+                {{/if}}
+                <li>Special Needs: {{isTrueOrFalse animal.attributes.special_needs}}</li>
+                <li>Shots Current: {{isTrueOrFalse animal.attributes.shots_current}}</li>
+            </ul>
+            <p class="animal-attributes">
                 For more information about {{animal.name}}, <a href="{{animal.url}}" target="_BLANK">click here!</a>
             </p>
         </div>
@@ -85,6 +97,9 @@
     const animalNavLink = document.querySelectorAll(".animal-nav-link")
     const navLinkOne = document.getElementById("link1")
     const navLinkTwo = document.getElementById("link2")
+    const aboutSection = document.getElementById('about')
+    const adoptionSection = document.getElementById('adoption')
+    const animalAttributes = document.querySelectorAll(".animal-attributes")
 
     let slideIndex = 1
     showSlides(slideIndex)
@@ -127,9 +142,14 @@
         if(e.target === navLinkOne) {
             navLinkOne.classList.add('active')
             navLinkTwo.classList.remove('active')
+            adoptionSection.style.display = 'none'
+            aboutSection.style.display = 'block'
         } if(e.target === navLinkTwo) {
             navLinkTwo.classList.add('active')
             navLinkOne.classList.remove('active')
+            aboutSection.style.display = 'none'
+            adoptionSection.style.display = 'block'
         }
     })
+
 </script>

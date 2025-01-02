@@ -27,6 +27,16 @@ app.engine("handlebars", exphbs.engine({
   helpers: {
     isEqual: function(a, b) {
       return a === b
+    },
+    formatTags: function(tags) {
+      return tags.join(", ")
+    },
+    isTrueOrFalse: function(attributes) {
+      if (attributes === true) {
+        return "Yes"
+      } if (attributes === false) {
+        return "No"
+      }
     }
   }
 }));

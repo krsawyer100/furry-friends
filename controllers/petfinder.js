@@ -66,7 +66,7 @@ async function getDogs(req, res) {
         })
 
         return res.render("dogs", {
-            cats: dogData,
+            dogs: dogData,
             zipcode: zipcode,
             currentPage: Number(page),
             totalPages: totalPages
@@ -84,7 +84,7 @@ async function getAnimal(req, res) {
 
         const animalResult = await client.animal.show(id)
 
-        if (!animalResult.data.animal) throw new Error('No Animal Data Found')
+        // if (!animalResult.data.animal) throw new Error('No Animal Data Found')
 
         console.log("Data: ", animalResult.data.animal)
 

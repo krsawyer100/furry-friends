@@ -584,12 +584,12 @@ p {
   margin:  0 55px -15px;
 }
 
-.info-divider {
+/* .info-divider {
   background-color: var(--primary);
   height: 6px;
   width: 6px;
   border-radius: 50%;
-}
+} */
 
 .card-info-location {
   color: var(--primary);
@@ -741,19 +741,19 @@ p {
   margin-bottom: 20px;
 }
 
-.divider {
+/* .divider {
   width: 8px;
   height: 4px;
   background-color: var(--primary);
   border-radius: 3px;
-}
+} */
 
-.small-divider {
+/* .small-divider {
   width: 6px;
   height: 3px;
   background-color: var(--primary);
   border-radius: 3px;
-}
+} */
 
 .animal-nav {
   display: flex;
@@ -778,6 +778,10 @@ p {
 .animal-nav-link.active {
   background-color: var(--primary);
   color: var(--white);
+}
+
+#adoption {
+  display: none;
 }
 
 /* Favorites Page */
