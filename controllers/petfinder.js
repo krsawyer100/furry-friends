@@ -9,6 +9,7 @@ let client = new petfinder.Client({
 })
 
 async function getCats(req, res) {
+    const { isLoggedIn } = req.session
     const { zipcode } = req.params
     let page =  req.query.page || 1
     const limit = 20
@@ -35,7 +36,8 @@ async function getCats(req, res) {
             cats: catData,
             zipcode: zipcode,
             currentPage: Number(page),
-            totalPages: totalPages
+            totalPages: totalPages,
+            isLoggedIn: isLoggedIn
         })
     } catch (error) {
         console.error("Error fetching cats:", error);
@@ -43,6 +45,7 @@ async function getCats(req, res) {
     }
 }
 async function getDogs(req, res) {
+    const { isLoggedIn } = req.session
     const { zipcode } = req.params
     let page =  req.query.page || 1
     const limit = 20
@@ -69,7 +72,8 @@ async function getDogs(req, res) {
             dogs: dogData,
             zipcode: zipcode,
             currentPage: Number(page),
-            totalPages: totalPages
+            totalPages: totalPages,
+            isLoggedIn: isLoggedIn
         })
     } catch (error) {
         console.error("Error fetching dogs:", error);
@@ -78,7 +82,8 @@ async function getDogs(req, res) {
 }
 
 async function getAnimal(req, res) {
-    const { id } = req.params 
+    const { id } = req.params
+    const { isLoggedIn } = req.session 
 
     try {
 
@@ -89,7 +94,8 @@ async function getAnimal(req, res) {
         console.log("Data: ", animalResult.data.animal)
 
         return res.render("animalInfo", { 
-            animal: animalResult.data.animal
+            animal: animalResult.data.animal,
+            isLoggedIn: isLoggedIn
         })
 
     } catch(error) {

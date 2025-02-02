@@ -13,6 +13,9 @@
         <div class="cards__container">
             {{#each cats}}
             <a class="card" id="{{this.id}}" href="/pet/{{this.id}}">
+            {{#if isLoggedIn}}
+                <button>Favorite</button>
+            {{/if}}
                 <img src="
                     {{#if this.primary_photo_cropped}}
                         {{this.primary_photo_cropped.full}}

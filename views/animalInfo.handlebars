@@ -4,7 +4,7 @@
             {{#each animal.photos}}
             <div class="mySlides fade">
                 <div class="numbertext"></div>
-                <img src="{{this.small}}" width="100%">
+                <img src="{{this.large}}" width="100%">
             </div>
             {{/each}}
             {{else}}
@@ -35,6 +35,9 @@
             <span class="small-divider">🧡</span>
             <p>{{animal.size}}</p>
         </div>
+        {{#if isLoggedIn}}
+            <a class="favorite-btn" href="#">Add to Favorites</a>
+        {{/if}}
     </section>
     <nav class="animal-nav">
         <a class="animal-nav-link active" href="#about" id="link1">About</a>
