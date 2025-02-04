@@ -12,5 +12,8 @@ router.get("/dogs/:zipcode?page=X", controllers.petfinder.getDogs)
 
 router.get("/pet/:id", controllers.petfinder.getAnimal)
 
+router.post("/favorites/:petId", controllers.favorite.addFavorite)
+router.get("/favorites", controllers.favorite.getFavorites)
+router.delete("/favorites/:petId", controllers.favorite.removeFavorite)
 
 module.exports = router;

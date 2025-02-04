@@ -5,3 +5,14 @@ CREATE TABLE users (
   username VARCHAR(100) NOT NULL UNIQUE,
   password VARCHAR(200) NOT NULL
 );
+
+CREATE TABLE favorites (
+  petId VARCHAR(100) NOT NULL PRIMARY KEY,
+  userId INT NOT NULL,
+  name VARCHAR(100) NOT NULL,
+  type VARCHAR(50) NOT NULL,
+  age VARCHAR(50),
+  gender VARCHAR(50),
+  size VARCHAR(50),
+  FOREIGN KEY (userId) REFERENCES users(id) ON DELETE CASCADE
+);

@@ -1,5 +1,6 @@
 require("dotenv").config();
 const petfinder = require("@petfinder/petfinder-js")
+const { Favorite } = require("../models");
 
 const clientId = process.env.PETFINDER_CLIENT_ID
 const clientSecret = process.env.PETFINDER_CLIENT_SECRET
@@ -83,19 +84,24 @@ async function getDogs(req, res) {
 
 async function getAnimal(req, res) {
     const { id } = req.params
-    const { isLoggedIn } = req.session 
+    const { isLoggedIn, userId } = req.session 
 
     try {
 
         const animalResult = await client.animal.show(id)
+        const animal = animalResult.data.animal
 
-        // if (!animalResult.data.animal) throw new Error('No Animal Data Found')
+        let isFavorite = false
 
-        console.log("Data: ", animalResult.data.animal)
+        if (isLoggedIn) {
+            const favorites = await Favorite.findByUserId(userId)
+            isFavorite = favorites.some(fav => fav.petId === id)
+        }
 
         return res.render("animalInfo", { 
-            animal: animalResult.data.animal,
-            isLoggedIn: isLoggedIn
+            animal,
+            isLoggedIn: isLoggedIn,
+            isFavorite
         })
 
     } catch(error) {

@@ -30,9 +30,7 @@ router.get("/dogs/:zipcode?", controllers.petfinder.getDogs)
 
 router.get("/pet/:id", controllers.petfinder.getAnimal)
 
-router.get("/favorites", ({ session: { isLoggedIn } }, res) => {
-  res.render("favorites", { isLoggedIn })
-})
+router.get("/favorites", controllers.favorite.getFavorites)
 
 router.get("/private", checkAuth, ({ session: { isLoggedIn } }, res) => {
   res.render("protected", { isLoggedIn });
