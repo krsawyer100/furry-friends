@@ -10,7 +10,7 @@ let client = new petfinder.Client({
 })
 
 async function getCats(req, res) {
-    const { isLoggedIn } = req.session
+    const { isLoggedIn, userId } = req.session
     const { zipcode } = req.params
     let page =  req.query.page || 1
     const limit = 20
@@ -26,19 +26,23 @@ async function getCats(req, res) {
 
         const totalPages = catResult.data.pagination.total_pages
 
+        const favorites = isLoggedIn ? await Favorite.findByUserId(userId) : []
+        const favoriteIds = favorites.map(f => f.petId)
+
         const catData = catResult.data.animals.map(function(cat) {
             return {
                 ...cat,
-                distance: Math.round(cat.distance)
+                distance: Math.round(cat.distance),
+                isFavorite: favoriteIds.includes(String(cat.id))
             }
         })
 
         return res.render("cats", {
             cats: catData,
-            zipcode: zipcode,
+            zipcode,
             currentPage: Number(page),
-            totalPages: totalPages,
-            isLoggedIn: isLoggedIn
+            totalPages,
+            isLoggedIn
         })
     } catch (error) {
         console.error("Error fetching cats:", error);
@@ -46,7 +50,7 @@ async function getCats(req, res) {
     }
 }
 async function getDogs(req, res) {
-    const { isLoggedIn } = req.session
+    const { isLoggedIn, userId } = req.session
     const { zipcode } = req.params
     let page =  req.query.page || 1
     const limit = 20
@@ -62,19 +66,23 @@ async function getDogs(req, res) {
 
         const totalPages = dogResult.data.pagination.total_pages
 
+        const favorites = isLoggedIn ? await Favorite.findByUserId(userId) : []
+        const favoriteIds = favorites.map(f => f.petId)
+
         const dogData = dogResult.data.animals.map(function(dog) {
             return {
                 ...dog,
-                distance: Math.round(dog.distance)
+                distance: Math.round(dog.distance),
+                isFavorite: favoriteIds.includes(String(dog.id))
             }
         })
 
         return res.render("dogs", {
             dogs: dogData,
-            zipcode: zipcode,
+            zipcode,
             currentPage: Number(page),
-            totalPages: totalPages,
-            isLoggedIn: isLoggedIn
+            totalPages,
+            isLoggedIn
         })
     } catch (error) {
         console.error("Error fetching dogs:", error);

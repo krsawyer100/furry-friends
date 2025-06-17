@@ -55,7 +55,7 @@ async function removeFavorite(req, res) {
 
     try {
         await Favorite.removeFavorite(req.session.userId, req.params.petId)
-        res.status(200)
+        res.status(200).redirect(req.get("Referrer"))
     } catch (err) {
         res.status(500).send(err.message)
     }

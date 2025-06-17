@@ -3,13 +3,17 @@
     <h2>My Favorites</h2>
     {{#if favorites}}
         <ul>
-            {{#each favorites}}
-                <li>
-                    <h3>{{this.name}} ({{this.type}})</h3>
-                    <p>Age: {{this.age}}, Gender: {{this.gender}}, Size: {{this.size}}</p>
-                </li>
-            {{/each}}
-        </ul>
+        {{#each favorites}}
+            <li>
+                <h3>{{this.name}} ({{this.type}})</h3>
+                <p>Age: {{this.age}}, Gender: {{this.gender}}, Size: {{this.size}}</p>
+                <form action="/api/favorites/{{this.petId}}?_method=DELETE" method="POST">
+                    <input type="hidden" name="_method" value="DELETE">
+                    <button type="submit" class="favorite-btn">Remove from Favorites</button>
+                </form>
+            </li>
+        {{/each}}
+    </ul>
     {{else}}
         <p>No favorites yet!</p>
     {{/if}}

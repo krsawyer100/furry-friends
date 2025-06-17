@@ -14,7 +14,14 @@
             {{#each cats}}
             <a class="card" id="{{this.id}}" href="/pet/{{this.id}}">
             {{#if isLoggedIn}}
-                <button>Favorite</button>
+                <form action="/api/favorites/{{this.id}}{{#if this.isFavorite}}?_method=DELETE{{/if}}" method="POST" class="favorite-toggle">
+                    {{#if this.isFavorite}}
+                    <input type="hidden" name="_method" value="DELETE">
+                    <button type="submit" class="favorite-btn">💔 Unfavorite</button>
+                    {{else}}
+                    <button type="submit" class="favorite-btn">❤️ Favorite</button>
+                    {{/if}}
+                </form>
             {{/if}}
                 <img src="
                     {{#if this.primary_photo_cropped}}

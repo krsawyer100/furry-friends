@@ -37,12 +37,12 @@
         </div>
         {{#if isLoggedIn}}
             {{#if isFavorite}}
-            <form action="/api/favorites/{{animal.id}}" method="POST" class="favorite-form">
+            <form action="/api/favorites/{{animal.id}}?_method=DELETE" method="POST" class="favorite-form">
+                <input type="hidden" name="_method" value="DELETE">
                 <button type="submit" class="favorite-btn">Remove from Favorites</button>
             </form>
             {{else}} 
-            <form action="/api/favorites/{{animal.id}}?_method=DELETE" method="POST" class="favorite-form">
-                <input type="hidden" name="_method" value="DELETE">
+            <form action="/api/favorites/{{animal.id}}" method="POST" class="favorite-form">
                 <button type="submit" class="favorite-btn">Add to Favorites</button>
             </form>
             {{/if}}
