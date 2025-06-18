@@ -15,6 +15,10 @@ async function getCats(req, res) {
     let page =  req.query.page || 1
     const limit = 20
 
+    const locationRes = await fetch(`https://api.zippopotam.us/us/${zipcode}`)
+    const locationData = await locationRes.json()
+    let cityState = `${locationData.places[0]['place name']}, ${locationData.places[0]['state abbreviation']}`
+
     try {
         const catResult = await client.animal.search({
             type: "cat",
@@ -40,6 +44,7 @@ async function getCats(req, res) {
         return res.render("cats", {
             cats: catData,
             zipcode,
+            cityState,
             currentPage: Number(page),
             totalPages,
             isLoggedIn
@@ -54,6 +59,10 @@ async function getDogs(req, res) {
     const { zipcode } = req.params
     let page =  req.query.page || 1
     const limit = 20
+
+    const locationRes = await fetch(`https://api.zippopotam.us/us/${zipcode}`)
+    const locationData = await locationRes.json()
+    let cityState = `${locationData.places[0]['place name']}, ${locationData.places[0]['state abbreviation']}`
 
     try {
         const dogResult = await client.animal.search({
@@ -80,6 +89,7 @@ async function getDogs(req, res) {
         return res.render("dogs", {
             dogs: dogData,
             zipcode,
+            cityState,
             currentPage: Number(page),
             totalPages,
             isLoggedIn

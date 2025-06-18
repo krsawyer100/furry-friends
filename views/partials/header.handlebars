@@ -7,21 +7,35 @@
     <div class="nav__btn_lines" id="line2"></div>
     <div class="nav__btn_lines" id="line3"></div>
   </button>
-  {{#if isLoggedIn}}
+</header>
+<main>
+    {{#if isLoggedIn}}
     <nav class="nav__links-container">
-      <a href="/cats" class="nav_link">Available Cats</a>
+      <a href="/cats" class="nav_link">
+        <img src="../../public/images/cat-icon-orange.png" alt="">
+        <p>Available Cats</p>
+      </a>
       <a href="/dogs" class="nav_link">Available Dogs</a>
       <a href="/favorites" class="nav_link">Favorites</a>
       <a href="/api/logout" class="nav_link">Logout</a>
     </nav>
   {{else}}
   <nav class="nav__links-container">
-    <a href="/cats" class="nav_link">Available Cats</a>
-    <a href="/dogs" class="nav_link">Available Dogs</a>
-    <a href="/login" class="nav_link">Login/Sign-Up</a>
+      <a href="/cats" class="nav_link">
+        <img src="../images/cat-icon-orange.png" alt="" height="40px">
+        <p>Available Cats</p>
+      </a>
+    <a href="/dogs" class="nav_link">
+        <img src="../images/dog-icon-orange.png" alt="" height="40px">
+        <p>Available Dogs</p>
+    </a>
+    <a href="/login" class="nav_link">
+        <img src="../images/login-icon-orange.png" alt="" height="60px">
+        <p>Login/Sign-Up</p>
+    </a>
   </nav>
   {{/if}}
-</header>
+</main>
 <script>
   const navBtn = document.querySelector(".nav__btn")
   const navMenu = document.querySelector(".nav__links-container")

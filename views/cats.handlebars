@@ -7,9 +7,11 @@
                     <img src="../images/search-button.png" alt="search" height="20px" class="main__location_form_button-img">
                 </button>
             </form>
+            <button id="detect-location" class="detect-location-btn">📍 Find pets near me</button>
+            <p class="location-help">Uses your current location to suggest nearby pets.</p>
         </div>
         {{#if cats}}
-        <h3 class="cards-title">Available Cats Near {{zipcode}}</h3>
+        <h3 class="cards-title">Available Cats Near {{cityState}}</h3>
         <div class="cards__container">
             {{#each cats}}
             <a class="card" id="{{this.id}}" href="/pet/{{this.id}}">
@@ -57,49 +59,90 @@
     </main>
 
 <script>
-    const form = document.querySelector(".main__location_form")
-    const prevPageBtn = document.getElementById('prev-page')
-    const nextPageBtn = document.getElementById('next-page')
-    const animalCard = document.querySelectorAll(".card")
+const form = document.querySelector(".main__location_form")
+const detectBtn = document.getElementById("detect-location")
+const prevPageBtn = document.getElementById('prev-page')
+const nextPageBtn = document.getElementById('next-page')
 
+// ZIP format validation
+const checkZipcodeFormat = str => /^\d{5}(-\d{4})?$/.test(str)
 
-    form.onsubmit = function(e) {
-        e.preventDefault()
-        let zipcode = form.location.value.trim()
-        console.log(zipcode)
-        if(!zipcode || !(checkZipcodeFormat(zipcode))) {
-            form.zipcode.value = ""
-            return
-        } else {
-            localStorage.setItem('zipcode', zipcode)
-        }
-        form.location.value = ""
-        window.location.href=`/cats/${zipcode}?page=1`
+// ✅ Prefill ZIP if it's in localStorage
+window.addEventListener("DOMContentLoaded", () => {
+  const storedZip = localStorage.getItem("zipcode")
+  const input = document.getElementById("location")
+
+  if (storedZip && checkZipcodeFormat(storedZip)) {
+    // Fill the form field
+    if (input) input.value = storedZip
+
+    // If we are on /cats without a zipcode, redirect to /cats/:zipcode
+    const currentPath = window.location.pathname
+    const isOnCatsRoot = currentPath === "/cats"
+
+    if (isOnCatsRoot) {
+      window.location.href = `/cats/${storedZip}?page=1`
     }
+  }
+})
 
-    {{!-- Checks Zipcode Format --}}
-    const checkZipcodeFormat = (str) => {
-    return /^\d{5}(-\d{4})?$/.test(str);
+// ✅ Manual ZIP form submission
+form.onsubmit = function(e) {
+  e.preventDefault()
+  const zipcode = form.location.value.trim()
+
+  if (!checkZipcodeFormat(zipcode)) {
+    alert("Please enter a valid 5-digit ZIP code.")
+    return
+  }
+
+  localStorage.setItem("zipcode", zipcode)
+  window.location.href = `/cats/${zipcode}?page=1`
+}
+
+// ✅ Geolocation ZIP detection (only when button is clicked)
+detectBtn.onclick = async function () {
+  if (!("geolocation" in navigator)) {
+    alert("Geolocation is not supported in your browser.")
+    return
+  }
+
+  navigator.geolocation.getCurrentPosition(async position => {
+    try {
+      const { latitude, longitude } = position.coords
+      const res = await fetch(`https://api.bigdatacloud.net/data/reverse-geocode-client?latitude=${latitude}&longitude=${longitude}&localityLanguage=en`)
+      const data = await res.json()
+      const zip = data.postcode
+
+      if (zip && checkZipcodeFormat(zip)) {
+        localStorage.setItem("zipcode", zip)
+        window.location.href = `/cats/${zip}?page=1`
+      } else {
+        alert("Couldn't determine a ZIP code from your location.")
+      }
+    } catch (err) {
+      console.error("Error fetching geolocation ZIP:", err)
+      alert("Something went wrong with geolocation.")
     }
+  }, err => {
+    console.warn("Geolocation permission denied.")
+    alert("We couldn’t access your location.")
+  })
+}
 
-    if(prevPageBtn) {
-        prevPageBtn.onclick = function() {
-            navigatePage(-1)
-        }
-    }
+// ✅ Pagination
+if (prevPageBtn) {
+  prevPageBtn.onclick = () => navigatePage(-1)
+}
+if (nextPageBtn) {
+  nextPageBtn.onclick = () => navigatePage(1)
+}
 
-    if(nextPageBtn) {
-        nextPageBtn.onclick = function() {
-            navigatePage(1)
-        }
-    }
-
-    function navigatePage(step) {
-        const CURRENT_URL = new URL(window.location.href)
-        const currentPage = parseInt(CURRENT_URL.searchParams.get('page')) || 1
-        const newPage = currentPage + step
-
-        CURRENT_URL.searchParams.set("page", newPage)
-        window.location.href = CURRENT_URL.toString()
-    }
+function navigatePage(step) {
+  const CURRENT_URL = new URL(window.location.href)
+  const currentPage = parseInt(CURRENT_URL.searchParams.get("page")) || 1
+  const newPage = currentPage + step
+  CURRENT_URL.searchParams.set("page", newPage)
+  window.location.href = CURRENT_URL.toString()
+}
 </script>

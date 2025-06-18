@@ -1,8 +1,9 @@
 :root {
   --primary: #BA5D27;
   --secondary: #0C7674;
-  --white: #fffff5;
-  --text: #000000;
+  --cream: #f1ebd7;
+  --white: #f9f9ef;
+  --text: #1e1e1e;
 }
 
 body {
@@ -30,7 +31,7 @@ h2 {
 h3 {
   margin: 25px 100px;
   font-size: 28px;
-  color: var(--text);
+  color: var(--secondary);
   font-weight: 600;
   padding-top: 20px;
 }
@@ -60,12 +61,12 @@ p {
 .header {
   background-color: var(--white);
   padding: 5px 20px 5px 10px;
-  border-bottom: var(--primary) 3px solid;
   position: relative;
   top: 0;
   z-index: 10;
   display: flex;
   align-items: center;
+  box-shadow: 0 0 30px hsl(0deg 0% 0% / 0.30);
 } 
 
 .nav__btn {
@@ -95,6 +96,7 @@ p {
 .nav__btn:hover > .nav__btn_lines {
   background-color: var(--secondary);
   transform: scale(0.98);
+  transition: .2s;
 }
 
 .nav__btn.open #line1 {
@@ -117,25 +119,23 @@ p {
   display: flex;
   flex-direction: column;
   align-items: center;
-  top: 96px;
-  right: -800px;
+  top: -400px;
+  right: 0;
   background-color: var(--white);
-  padding: 10px;
   z-index: 4;
   position: absolute;
-  width: 250px;
-  height: 100vh;
+  width: 100vw;
+  height: auto;
   transition: visibility 0.8s;
-  border-bottom: var(--primary) solid 2px;
   animation: slideOut 0.8s forwards;
   -webkit-animation: slideOut 0.8s forwards;
-  border-top: var(--primary) solid 1px;
-  border-left: var(--primary) solid 2px;
+  padding-top: 20px;
+  padding-bottom: 20px;
 }
 
 .nav__links-container.open {
   visibility: visible;
-  top: 96px;
+  top: 94px;
   right: 0;
   animation: slideIn 0.8s forwards;
   -webkit-animation: slideIn 0.8s forwards;
@@ -150,33 +150,44 @@ p {
   width: auto;
 }
 
+.nav_link > img {
+  width: 60px;
+}
+
+.nav_link > p {
+  font-size: 18px;
+  font-weight: 500;
+}
+
 .nav_link {
+  display: flex;
+  justify-content: center;
+  gap: 15px;
   text-decoration: none;
   text-align: center;
   color: var(--primary);
-  font-size: 18px;
-  font-weight: 500;
-  padding: 30px 0;
-  border-bottom: var(--primary) solid 2px;
+  padding: 20px;
   width: 100%;
 }
 
 .logo_img:hover {
-  transform: scale(.99);
+  transform: scale(.995);
   content: url(images/logo-blue.png);
+  transition: .2s;
 }
 
-.nav_link:hover {
+.nav_link:hover, .nav_link:focus {
   transform: scale(.98);
   font-weight: 400;
-  color: var(--secondary);
+  background-color: rgba(0, 0, 0, .025);
+  text-decoration: underline;
 }
 
 /* Footer */
 .footer {
   height: auto;
   width: 100%;
-  font-size: 10pt;
+  font-size: 10px;
   font-weight: 300;
   background-color: var(--primary);
   color: var(--white);
@@ -330,7 +341,7 @@ p {
 
 .main__pet-adoption {
   display: flex;
-  height: 700px;
+  height: auto;
   background-image: url("images/bones-background.jpg");
   background-size: cover;
   background-position: center;
@@ -338,7 +349,7 @@ p {
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  padding: 50px 0; 
+  padding: 50px 0;
 }
 
 .main__pet-adoption_title {
@@ -353,31 +364,42 @@ p {
   margin: 0 100px;
   flex-wrap: wrap;
   display: flex;
+  gap: 50px;
 }
 
-.main__link_img-cat, .main__link_img-dog {
-  width: 250px;
-  height: auto;
-  padding: 15px 50px;
+.main__cat_link, .main__dog_link {
+    background-color: var(--primary);
+    border-radius: 50%;
+    width: 300px;
+    height: 300px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 30px;
+    text-decoration: none;
+    color: var(--white);
+    box-shadow: 0 0 30px hsl(0deg 0% 0% / 0.30);
 }
 
-.main__link_img-cat:hover, .main__link_img-dog:hover {
-  transform: scale(.97);
+.main__cat_link:hover, .main__dog_link:hover {
+  transform: scale(.99);
+  transition: .2s;
 }
 
-.main__link_img-cat:hover {
-  content: url(images/cat-button-blue.png);
-  z-index: 0;
+.main__link_img-cat {
+  width: 100px;
+  height: 100px;
 }
 
-.main__link_img-dog:hover {
-  content: url(images/dog-button-blue.png);
-  z-index: 0;
+.main__link_img-dog {
+  width: 125px;
+  height: 125px;
 }
 
 .main__pet__facts {
   display: flex;
-  background-color: var(--primary);
+  background-color: var(--cream);
   background-size: cover;
   background-position: center;
   text-align: center;
@@ -390,6 +412,7 @@ p {
 .main__facts_img {
   width: 40%;
   height: auto;
+  border-radius: 30px;
 }
 
 .main__pet__facts_container {
@@ -397,7 +420,7 @@ p {
   flex-direction: row;
   align-items: center;
   justify-content: center;
-  color: var(--white);
+  color: var(--text);
   margin: 0 100px;     
 
 }
@@ -413,7 +436,7 @@ p {
 
 .main__pet__facts_text{
   margin: 0 0 25px;
-  color: var(--white);
+  color: var(--primary);
   text-align: center;
 }
 
@@ -424,52 +447,59 @@ p {
 }
 
 .main__involved-title {
-  margin: 25px 0 35px;
+  margin: 50px 40px;
 }
 
 .main__involved_info-container {
   display: flex;
   column-gap: 25px;
-  row-gap: 100px;
+  row-gap: 50px;
   flex-wrap: wrap;
   justify-content: space-evenly;
 }
 
 .main__involved_info_img {
-  width: 250px;
-  height: 200px;
-  object-fit: cover;
+  width: 50px;
+  height: auto;
 }
 
 .main__involved_info_subtitle {
-  color: var(--secondary);
-  padding: 10px 0;
-  margin-left: auto;
+  color: var(--primary);
 }
 
 .main__involved_info-container_adopt, .main__involved_info-container_foster, .main__involved_info-container_volunteer {
   width: 300px;
-  height: 500px;
+  height: 300px;
+  text-decoration: none;
+  box-shadow: 0 0 20px hsla(180, 82%, 11%, 0.5);
+  padding: 30px 20px;
+  border-radius: 30px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.main__involved_info_title-container {
+  display: flex;
+  align-items: center;
+  padding: 0 0 10px;
+  gap: 20px;
+}
+
+.main__involved_info_title-container .main__involved_info_subtitle {
+  margin: 0;
+}
+
+.main__involved_info-container_adopt:hover, .main__involved_info-container_foster:hover, .main__involved_info-container_volunteer:hover {
+  transform: scale(.99);
+  transition: .2s;
 }
 
 .main__involved_info_text {
   text-wrap: wrap;
-  font-size: 12pt;
-  margin: 15px 0 20px;
-}
-
-.main__involved_info_link {
-  color: var(--primary);
-  text-decoration: none;
-  font-size: 16pt;
-  padding-top: 25px;
-}
-
-.main__involved_info_link:hover {
-  color: var(--secondary);
-  text-decoration: underline;
-  font-size: 15.9pt;
-  transition: 0.4s;
+  font-size: 14px;
+  color: var(--text);
+  padding: 0 10px;
 }
 
 /* Cat & Dog Page */
@@ -500,19 +530,17 @@ p {
   padding: 3px 5px;
   background-color: var(--white);
   border-radius: 5px;
-  border: var(--primary) solid 2px;
   margin-left: 5px;
+  border: none;
 }
 
 .main__location_form_button:hover {
   scale: .97;
   cursor: pointer;
-  border: var(--secondary) 2px solid;
-  content: url(./images/search-button-blue.png);
   z-index: 0;
 }
 
-.main__location_form_input:hover {
+.main__location_form_input:hover, .main__location_form_input:focus {
   border: var(--secondary) 2px solid;
   z-index: 0;
 }
@@ -520,6 +548,29 @@ p {
 .main__location_form_input::placeholder {
   text-align: center;
   color: var(--text);
+}
+
+.detect-location-btn {
+  margin-top: 10px;
+  background-color: transparent;
+  border: 2px solid var(--primary);
+  color: var(--primary);
+  border-radius: 5px;
+  padding: 8px 14px;
+  font-size: 14px;
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+}
+
+.detect-location-btn:hover {
+  background-color: var(--primary);
+  color: var(--white);
+}
+
+.location-help {
+  font-size: 12px;
+  color: var(--text);
+  margin-top: 4px;
 }
 
 .cards-title {
@@ -546,8 +597,8 @@ p {
   text-align: center;
   justify-content: center;
   align-items: center;
-  border: var(--primary) solid 2px;
   text-decoration: none;
+  box-shadow: 0 0 20px hsla(180, 82%, 7%, 0.3);
 }
 
 .animal-name {
@@ -801,21 +852,21 @@ p {
 
 /* Animations */
 @keyframes slideIn {
-  0% { right: -800px; }
-  100% { right: 0px; }  
+  0% { top: -400px; }
+  100% { top: 94px; }  
 }
 
 @-webkit-keyframes slideIn {
-  0% { right: -800px; }
-  100% { right: 0px; }  
+  0% { top: -400px; }
+  100% { top: 94px; }  
 }
 
 @keyframes slideOut {
-  0% { right: 0px; }  
-  100% { right: -800px; }
+  0% { top: 94px; }  
+  100% { top: -400px; }
 }
 
 @-webkit-keyframes slideOut {
-  0% { right: 0px; }  
-  100% { right: -800px; }
+  0% { top: 94px; }  
+  100% { top: -400px; }
 }
