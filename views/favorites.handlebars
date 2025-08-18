@@ -1,20 +1,110 @@
+<main class="main">
+  <h2 class="cards-title">Favorites</h2>
 
-<main>
-    <h2>My Favorites</h2>
-    {{#if favorites}}
-        <ul>
-        {{#each favorites}}
-            <li>
-                <h3>{{this.name}} ({{this.type}})</h3>
-                <p>Age: {{this.age}}, Gender: {{this.gender}}, Size: {{this.size}}</p>
-                <form action="/api/favorites/{{this.petId}}?_method=DELETE" method="POST">
-                    <input type="hidden" name="_method" value="DELETE">
-                    <button type="submit" class="favorite-btn">Remove from Favorites</button>
-                </form>
-            </li>
+  <div class="favorites-tabs" role="tablist" aria-label="Favorite Pets">
+    <button class="tab-btn activeTab" role="tab" aria-selected="true" aria-controls="tab-cats" id="tab-cats-btn">
+      Cats
+    </button>
+    <button class="tab-btn" role="tab" aria-selected="false" aria-controls="tab-dogs" id="tab-dogs-btn">
+      Dogs
+    </button>
+  </div>
+
+  <section id="tab-cats" class="tab-content activeContent" role="tabpanel" aria-labelledby="tab-cats-btn">
+    {{#if catFavorites.length}}
+      <div class="cards__container">
+        {{#each catFavorites}}
+          <div class="card">
+            <div class="card-img-container">
+              <form action="/api/favorites/{{this.petId}}?_method=DELETE" method="POST" class="favorite-toggle">
+                <input type="hidden" name="_method" value="DELETE">
+                <button type="submit" class="card-favorite-btn" aria-label="Remove from favorites">
+                  <img src="../images/heart-fill.png" alt="">
+                </button>
+              </form>
+
+              <img
+                src="{{#if this.photo}}{{this.photo}}{{else}}../images/placeholder-img.png{{/if}}"
+                alt="{{this.name}}" class="card-img" width="300">
+            </div>
+
+            <div class="card-info-container">
+              <h4 class="animal-name space-top">{{this.name}}</h4>
+              <div class="card-info-animal space-bottom">
+                <p class="card-info">{{this.age}}</p>
+                <span class="info-divider">🐾</span>
+                <p class="card-info">{{this.gender}}</p>
+              </div>
+              <a class="about-link" href="/pet/{{this.petId}}">About {{this.name}}</a>
+            </div>
+          </div>
         {{/each}}
-    </ul>
+      </div>
     {{else}}
-        <p>No favorites yet!</p>
+      <p>No favorite cats yet!</p>
     {{/if}}
+  </section>
+
+  <section id="tab-dogs" class="tab-content" role="tabpanel" aria-labelledby="tab-dogs-btn">
+    {{#if dogFavorites.length}}
+      <div class="cards__container">
+        {{#each dogFavorites}}
+          <div class="card">
+            <div class="card-img-container">
+              <form action="/api/favorites/{{this.petId}}?_method=DELETE" method="POST" class="favorite-toggle">
+                <input type="hidden" name="_method" value="DELETE">
+                <button type="submit" class="card-favorite-btn" aria-label="Remove from favorites">
+                  <img src="../images/heart-fill.png" alt="">
+                </button>
+              </form>
+
+              <img
+                src="{{#if this.photo}}{{this.photo}}{{else}}../images/placeholder-img.png{{/if}}"
+                alt="{{this.name}}" class="card-img" width="300">
+            </div>
+
+            <div class="card-info-container">
+              <h4 class="animal-name space-top">{{this.name}}</h4>
+              <div class="card-info-animal space-bottom">
+                <p class="card-info">{{this.age}}</p>
+                <span class="info-divider">🐾</span>
+                <p class="card-info">{{this.gender}}</p>
+              </div>
+              <a class="about-link" href="/pet/{{this.petId}}">About {{this.name}}</a>
+            </div>
+          </div>
+        {{/each}}
+      </div>
+    {{else}}
+      <p>No favorite dogs yet!</p>
+    {{/if}}
+  </section>
 </main>
+
+<script>
+  const tabButtons = document.querySelectorAll('.tab-btn');
+  const tabPanels  = document.querySelectorAll('.tab-content');
+
+  function activate(which) {
+    tabButtons.forEach(btn => {
+      const isOn = btn.id === `tab-${which}-btn`;
+      btn.classList.toggle('activeTab', isOn);
+      btn.setAttribute('aria-selected', isOn ? 'true' : 'false');
+      btn.setAttribute('tabindex', isOn ? '0' : '-1');
+    });
+
+    tabPanels.forEach(panel => {
+      panel.classList.toggle('activeContent', panel.id === `tab-${which}`);
+      panel.hidden = panel.id !== `tab-${which}`;
+    });
+  }
+
+  tabButtons.forEach(btn => {
+    btn.addEventListener('click', () => {
+      const which = btn.id.includes('cats') ? 'cats' : 'dogs';
+      activate(which);
+    });
+  });
+
+  activate('cats');
+</script>

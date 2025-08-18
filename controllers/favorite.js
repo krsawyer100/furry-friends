@@ -20,6 +20,8 @@ async function addFavorite(req, res) {
         const petResponse = await client.animal.show(petId)
         const pet = petResponse.data.animal
 
+        console.log('Pet: ', pet)
+
         if (!pet) {
             return res.status(404).json({ error: "Pet not found" });
         }
@@ -29,8 +31,9 @@ async function addFavorite(req, res) {
         const age = pet.age
         const gender = pet.gender
         const size = pet.size
-
-        await Favorite.createFavorite(userId, petId, name, type, age, gender, size)
+        const photo = pet.primary_photo_cropped?.full || pet.photos?.[0]?.full || null;
+        
+        await Favorite.createFavorite(userId, petId, name, type, age, gender, size, photo)
         res.status(200).redirect("back")
     } catch(err) {
         console.error("Error adding favorite: ", err.message)
@@ -39,15 +42,26 @@ async function addFavorite(req, res) {
 }
 
 async function getFavorites(req, res) {
-    if (!req.session.isLoggedIn) return res.redirect("/login")
-    
-    try {
-        const favorites = await Favorite.findByUserId(req.session.userId)
-        res.render("favorites", { favorites, isLoggedIn: req.session.isLoggedIn })
-    } catch(err) {
-        console.error("error fetching favorites: ", err.message)
-        res.status(500).send(err.message)
-    }
+  if (!req.session.isLoggedIn) return res.redirect("/login");
+
+  try {
+    const favorites = await Favorite.findByUserId(req.session.userId);
+
+    const norm = t => (t || "").toLowerCase();
+    const catFavorites = favorites.filter(f => norm(f.type) === "cat");
+    const dogFavorites = favorites.filter(f => norm(f.type) === "dog");
+
+    res.render("favorites", {
+      isLoggedIn: true,
+      catFavorites,
+      dogFavorites,
+      catCount: catFavorites.length,
+      dogCount: dogFavorites.length
+    });
+  } catch (err) {
+    console.error("error fetching favorites: ", err.message);
+    res.status(500).send(err.message);
+  }
 }
 
 async function removeFavorite(req, res) {

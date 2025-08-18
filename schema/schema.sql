@@ -7,12 +7,14 @@ CREATE TABLE users (
 );
 
 CREATE TABLE favorites (
-  petId VARCHAR(100) NOT NULL PRIMARY KEY,
+  petId VARCHAR(100) NOT NULL,
   userId INT NOT NULL,
   name VARCHAR(100) NOT NULL,
   type VARCHAR(50) NOT NULL,
   age VARCHAR(50),
   gender VARCHAR(50),
   size VARCHAR(50),
+  photo VARCHAR(1024),
+  PRIMARY KEY (petId, userId),
   FOREIGN KEY (userId) REFERENCES users(id) ON DELETE CASCADE
 );

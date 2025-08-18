@@ -12,12 +12,21 @@
     {{#if isLoggedIn}}
     <nav class="nav__links-container">
       <a href="/cats" class="nav_link">
-        <img src="../../public/images/cat-icon-orange.png" alt="">
+        <img src="../images/cat-icon-orange.png" alt="" height="40px" width="60px">
         <p>Available Cats</p>
       </a>
-      <a href="/dogs" class="nav_link">Available Dogs</a>
-      <a href="/favorites" class="nav_link">Favorites</a>
-      <a href="/api/logout" class="nav_link">Logout</a>
+      <a href="/dogs" class="nav_link">
+        <img src="../images/dog-icon-orange.png" alt="" height="40px" width="60px">
+        <p>Available Dogs</p>
+      </a>
+      <a href="/favorites" class="nav_link">
+        <img src="../images/favorites-icon.png" alt="" height="40px" width="auto">
+        <p>Favorites</p>
+      </a>
+      <a href="/api/logout" class="nav_link">
+        <img src="../images/logout-icon.png" alt="" height="40px">
+        <p>Logout</p>
+      </a>
     </nav>
   {{else}}
   <nav class="nav__links-container">

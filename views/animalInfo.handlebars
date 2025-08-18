@@ -69,7 +69,7 @@
                 <li>Special Needs: {{isTrueOrFalse animal.attributes.special_needs}}</li>
                 <li>Shots Current: {{isTrueOrFalse animal.attributes.shots_current}}</li>
             </ul>
-            <p class="animal-attributes">
+            <p class="info">
                 For more information about {{animal.name}}, <a href="{{animal.url}}" target="_BLANK">click here!</a>
             </p>
         </div>
@@ -95,13 +95,11 @@
                 <h4>Phone</h4>
                 <p>{{animal.contact.phone}}
             {{/if}}
-            <p>
+            <p class="info">
                 For more information about adopting {{animal.name}}, <a href="{{animal.url}}" target="_BLANK">click here!</a>
             </p>
-
         </div>
     </section>
-
 </main>
 
 <script>

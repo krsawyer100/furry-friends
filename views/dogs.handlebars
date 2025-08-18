@@ -1,62 +1,67 @@
-    <main class="main">
-        <div class="main__location">
-            <h4 class="main__location_title">Enter your Location</h4>
-            <form class="main__location_form">
-                <input type="text" class="main__location_form_input" id="location" name="location" placeholder="Enter your zipcode here">
-                <button class="main__location_form_button flex" type="submit">
-                    <img src="../images/search-button.png" alt="search" height="20px" class="main__location_form_button-img">
-                </button>
-            </form>
-            <button id="detect-location" class="detect-location-btn">📍 Find pets near me</button>
-            <p class="location-help">Uses your current location to suggest nearby pets.</p>
-        </div>
-        {{#if dogs}}
-        <h3 class="cards-title">Available Dogs Near {{cityState}}</h3>
-        <div class="cards__container">
-            {{#each dogs}}
-            <a class="card" id="{{this.id}}" href="/pet/{{this.id}}">
-            {{#if isLoggedIn}}
-                <form action="/api/favorites/{{this.id}}{{#if this.isFavorite}}?_method=DELETE{{/if}}" method="POST" class="favorite-toggle">
-                    {{#if this.isFavorite}}
-                    <input type="hidden" name="_method" value="DELETE">
-                    <button type="submit" class="favorite-btn">💔 Unfavorite</button>
-                    {{else}}
-                    <button type="submit" class="favorite-btn">❤️ Favorite</button>
-                    {{/if}}
-                </form>
+<main class="main">
+  <div class="main__location">
+    <h4 class="main__location_title">Enter your Location</h4>
+    <form class="main__location_form">
+      <input type="text" class="main__location_form_input" id="location" name="location" placeholder="Enter your zipcode here">
+      <button class="main__location_form_button flex" type="submit">
+        <img src="../images/search-button.png" alt="search" height="20px" class="main__location_form_button-img">
+      </button>
+    </form>
+    <button id="detect-location" class="detect-location-btn">Find pets near me</button>
+    <p class="location-help">Uses your current location to suggest nearby pets.</p>
+  </div>
+
+  {{#if dogs}}
+    <h3 class="cards-title">Available Dogs Near {{cityState}}</h3>
+    <div class="cards__container">
+      {{#each dogs}}
+        <div class="card">
+          <div class="card-img-container">
+            {{#if ../isLoggedIn}}
+              <form action="/api/favorites/{{this.id}}{{#if this.isFavorite}}?_method=DELETE{{/if}}" method="POST" class="favorite-toggle">
+                {{#if this.isFavorite}}
+                  <input type="hidden" name="_method" value="DELETE">
+                  <button type="submit" class="card-favorite-btn" aria-label="Remove from favorites">
+                    <img src="../images/heart-fill.png" alt="">
+                  </button>
+                {{else}}
+                  <button type="submit" class="card-favorite-btn" aria-label="Add to favorites">
+                    <img src="../images/heart-empty.png" alt="">
+                  </button>
+                {{/if}}
+              </form>
             {{/if}}
-                <img src="
-                    {{#if this.primary_photo_cropped}}
-                        {{this.primary_photo_cropped.full}}
-                    {{else}}
-                        ../images/placeholder-img.png
-                    {{/if}}" 
-                    alt="{{this.name}}" width="300" class="card-img">
-                    <div class="card-info-container">
-                        <h4 class="animal-name">{{this.name}}</h4>
-                        <div class="card-info-animal">
-                            <p class="card-info">{{this.age}}</p>
-                            <span class="info-divider">🐾</span>
-                            <p class="card-info">{{this.gender}}</p>
-                        </div>
-                        <p class="card-info-location">{{this.distance}} Miles Away</p>
-                    </div>
-                </a>
-            {{/each}}
+
+            <img
+              src="{{#if this.primary_photo_cropped}}{{this.primary_photo_cropped.full}}{{else}}../images/placeholder-img.png{{/if}}"
+              alt="{{this.name}}"
+              width="300"
+              class="card-img">
+          </div>
+
+          <div class="card-info-container">
+            <h4 class="animal-name">{{this.name}}</h4>
+            <div class="card-info-animal">
+              <p class="card-info">{{this.age}}</p>
+              <span class="info-divider">🐾</span>
+              <p class="card-info">{{this.gender}}</p>
+            </div>
+            <p class="card-info-location">{{this.distance}} Miles Away</p>
+            <a class="about-link" id="{{this.id}}" href="/pet/{{this.id}}">Learn More</a>
+          </div>
         </div>
+      {{/each}}
+    </div>
 
-        <div class="pagination">
-            <button id="prev-page" {{#if (isEqual currentPage 1)}}disabled{{/if}}>Previous</button>
-            <span>Page {{currentPage}} of {{totalPages}}</span>
-            <button id="next-page" {{#if (isEqual currentPage totalPages)}}disabled{{/if}}>Next</button>
-        </div>
-
-        {{else}}
-        <h5>{{error}}</h5>
-        {{/if}}
-</div>
-
-    </main>
+    <div class="pagination">
+      <button id="prev-page" {{#if (isEqual currentPage 1)}}disabled{{/if}}>Previous</button>
+      <span>Page {{currentPage}} of {{totalPages}}</span>
+      <button id="next-page" {{#if (isEqual currentPage totalPages)}}disabled{{/if}}>Next</button>
+    </div>
+  {{else}}
+    <h5>{{error}}</h5>
+  {{/if}}
+</main>
 
 <script>
 const form = document.querySelector(".main__location_form")
@@ -67,13 +72,12 @@ const nextPageBtn = document.getElementById('next-page')
 // ZIP format validation
 const checkZipcodeFormat = str => /^\d{5}(-\d{4})?$/.test(str)
 
-// ✅ Prefill ZIP if it's in localStorage
+// Prefill ZIP if it's in localStorage
 window.addEventListener("DOMContentLoaded", () => {
   const storedZip = localStorage.getItem("zipcode")
   const input = document.getElementById("location")
 
   if (storedZip && checkZipcodeFormat(storedZip)) {
-    // Fill the form field
     if (input) input.value = storedZip
 
     const currentPath = window.location.pathname
@@ -85,7 +89,7 @@ window.addEventListener("DOMContentLoaded", () => {
   }
 })
 
-// ✅ Manual ZIP form submission
+// Manual ZIP form submission
 form.onsubmit = function(e) {
   e.preventDefault()
   const zipcode = form.location.value.trim()
@@ -99,7 +103,7 @@ form.onsubmit = function(e) {
   window.location.href = `/dogs/${zipcode}?page=1`
 }
 
-// ✅ Geolocation ZIP detection (only when button is clicked)
+// Geolocation ZIP detection
 detectBtn.onclick = async function () {
   if (!("geolocation" in navigator)) {
     alert("Geolocation is not supported in your browser.")
@@ -129,13 +133,9 @@ detectBtn.onclick = async function () {
   })
 }
 
-// ✅ Pagination
-if (prevPageBtn) {
-  prevPageBtn.onclick = () => navigatePage(-1)
-}
-if (nextPageBtn) {
-  nextPageBtn.onclick = () => navigatePage(1)
-}
+// Pagination
+if (prevPageBtn) prevPageBtn.onclick = () => navigatePage(-1)
+if (nextPageBtn) nextPageBtn.onclick = () => navigatePage(1)
 
 function navigatePage(step) {
   const CURRENT_URL = new URL(window.location.href)

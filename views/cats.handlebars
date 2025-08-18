@@ -7,41 +7,54 @@
                     <img src="../images/search-button.png" alt="search" height="20px" class="main__location_form_button-img">
                 </button>
             </form>
-            <button id="detect-location" class="detect-location-btn">📍 Find pets near me</button>
+            <button id="detect-location" class="detect-location-btn">Find pets near me</button>
             <p class="location-help">Uses your current location to suggest nearby pets.</p>
         </div>
         {{#if cats}}
         <h3 class="cards-title">Available Cats Near {{cityState}}</h3>
         <div class="cards__container">
             {{#each cats}}
-            <a class="card" id="{{this.id}}" href="/pet/{{this.id}}">
-            {{#if isLoggedIn}}
-                <form action="/api/favorites/{{this.id}}{{#if this.isFavorite}}?_method=DELETE{{/if}}" method="POST" class="favorite-toggle">
+            <div class="card">
+              <div class="card-img-container">
+                {{#if ../isLoggedIn}}
+                  <form action="/api/favorites/{{this.id}}{{#if this.isFavorite}}?_method=DELETE{{/if}}" 
+                        method="POST" 
+                        class="favorite-toggle">
                     {{#if this.isFavorite}}
-                    <input type="hidden" name="_method" value="DELETE">
-                    <button type="submit" class="favorite-btn">💔 Unfavorite</button>
+                      <input type="hidden" name="_method" value="DELETE">
+                      <button type="submit" class="card-favorite-btn">
+                        <img src="../images/heart-fill.png"/>
+                      </button>
                     {{else}}
-                    <button type="submit" class="favorite-btn">❤️ Favorite</button>
+                      <button type="submit" class="card-favorite-btn">
+                        <img src="../images/heart-empty.png"/>
+                      </button>
                     {{/if}}
-                </form>
-            {{/if}}
+                  </form>
+                {{/if}}
+
                 <img src="
-                    {{#if this.primary_photo_cropped}}
-                        {{this.primary_photo_cropped.full}}
-                    {{else}}
-                        ../images/placeholder-img.png
-                    {{/if}}" 
-                    alt="{{this.name}}" width="300" class="card-img">
-                    <div class="card-info-container">
-                        <h4 class="animal-name">{{this.name}}</h4>
-                        <div class="card-info-animal">
-                            <p class="card-info">{{this.age}}</p>
-                            <span class="info-divider">🐾</span>
-                            <p class="card-info">{{this.gender}}</p>
-                        </div>
-                        <p class="card-info-location">{{this.distance}} Miles Away</p>
-                    </div>
-                </a>
+                  {{#if this.primary_photo_cropped}}
+                    {{this.primary_photo_cropped.full}}
+                  {{else}}
+                    ../images/placeholder-img.png
+                  {{/if}}" 
+                  alt="{{this.name}}" 
+                  width="300" 
+                  class="card-img">
+              </div>
+
+              <div class="card-info-container">
+                <h4 class="animal-name">{{this.name}}</h4>
+                <div class="card-info-animal">
+                  <p class="card-info">{{this.age}}</p>
+                  <span class="info-divider">🐾</span>
+                  <p class="card-info">{{this.gender}}</p>
+                </div>
+                <p class="card-info-location">{{this.distance}} Miles Away</p>
+                <a class="about-link" id="{{this.id}}" href="/pet/{{this.id}}">Learn More</a>
+              </div>
+            </div>
             {{/each}}
         </div>
 
